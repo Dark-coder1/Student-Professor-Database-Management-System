@@ -74,12 +74,17 @@ document.addEventListener("click", (e) => {
 
 // ── Bookmarks ────────────────────────────────────────────────
 
+function saveBookmarksToStorage() {
+  localStorage.setItem("bookmarks", JSON.stringify([...state.bookmarks]));
+}
+
 function toggleBookmark(facultyId) {
   if (state.bookmarks.has(facultyId)) {
     state.bookmarks.delete(facultyId);
   } else {
     state.bookmarks.add(facultyId);
   }
+  saveBookmarksToStorage();
   renderCards();
 }
 

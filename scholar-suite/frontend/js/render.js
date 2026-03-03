@@ -3,6 +3,13 @@
  * Reads from state.allFaculty and applies current filters.
  */
 
+/** Extract short department code from full department name. */
+function getDeptCode(deptName) {
+  // Extract code from parentheses, e.g., "School of Computer Science and Engineering (SCOPE)" -> "SCOPE"
+  const match = (deptName || "").match(/\(([A-Z]+)\)$/);
+  return match ? match[1].toLowerCase() : (deptName || "unknown").toLowerCase();
+}
+
 /** Apply all active filters and re-render the grid. */
 function renderCards() {
   const grid = document.getElementById("facultyGrid");
@@ -47,7 +54,7 @@ function renderCards() {
 /** Build the HTML string for a single faculty card. */
 function buildCardHTML(f, i) {
   const saved     = state.bookmarks.has(f.id);
-  const deptKey   = (f.dept || "unknown").toLowerCase();
+  const deptKey   = getDeptCode(f.dept);
   const delay     = Math.min(i * 0.05, 0.4);
 
   const freeSlots = (f.free || [])

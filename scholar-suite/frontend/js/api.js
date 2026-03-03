@@ -9,18 +9,18 @@ const API_BASE = "/api";
 
 // ── Local fallback data ───────────────────────────────────────
 const LOCAL_FACULTY = [
-  { id:1,  emoji:"👩‍💻", name:"Dr. Priya Nair",           title:"Associate Professor",       dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 98765 43210", email:"priya.nair@univ.edu.in",    free:["Mon 10–12","Wed 2–4","Fri 11–1"],       busy:["Tue 9–11"] },
-  { id:2,  emoji:"👨‍🔬", name:"Prof. S. Krishnaswamy",    title:"Professor & Head of Dept",  dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 94321 87654", email:"s.krishna@univ.edu.in",     free:["Tue 3–5","Thu 10–12"],                  busy:["Mon 9–11","Fri 9–11"] },
-  { id:3,  emoji:"👩‍🏫", name:"Dr. Meena Rajagopalan",    title:"Assistant Professor",       dept:"ECE",   deptLabel:"Electronics & Comm.",  phone:"+91 91234 56789", email:"meena.raj@univ.edu.in",     free:["Mon 2–4","Thu 11–1","Fri 3–5"],         busy:[] },
-  { id:4,  emoji:"👨‍🏫", name:"Dr. Ramesh Iyer",          title:"Senior Professor",          dept:"MECH",  deptLabel:"Mechanical Engg.",     phone:"+91 97654 32109", email:"r.iyer@univ.edu.in",        free:["Wed 10–12","Fri 2–4"],                  busy:["Mon 10–12"] },
-  { id:5,  emoji:"👩‍🔬", name:"Dr. Anitha Subramaniam",   title:"Associate Professor",       dept:"MATH",  deptLabel:"Mathematics",          phone:"+91 93456 78901", email:"anitha.s@univ.edu.in",      free:["Mon 11–1","Tue 2–4","Thu 9–11"],        busy:[] },
-  { id:6,  emoji:"👨‍💼", name:"Prof. Vijay Shankar",       title:"Professor",                 dept:"CIVIL", deptLabel:"Civil Engineering",    phone:"+91 98901 23456", email:"v.shankar@univ.edu.in",     free:["Tue 10–12","Fri 9–11"],                 busy:["Wed 2–4"] },
-  { id:7,  emoji:"👩‍💼", name:"Dr. Kavitha Menon",         title:"Assistant Professor",       dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 95678 12345", email:"kavitha.m@univ.edu.in",     free:["Mon 9–11","Wed 11–1"],                  busy:["Thu 2–4"] },
-  { id:8,  emoji:"🧑‍🏫", name:"Dr. Suresh Babu",           title:"Associate Professor",       dept:"ECE",   deptLabel:"Electronics & Comm.",  phone:"+91 99012 34567", email:"suresh.b@univ.edu.in",      free:["Tue 11–1","Thu 3–5","Fri 10–12"],       busy:[] },
-  { id:9,  emoji:"👩‍🔬", name:"Prof. Lakshmi Devi",        title:"Senior Professor",          dept:"MATH",  deptLabel:"Mathematics",          phone:"+91 90123 45678", email:"lakshmi.d@univ.edu.in",     free:["Mon 3–5","Wed 9–11"],                   busy:["Tue 9–11"] },
-  { id:10, emoji:"👨‍🔬", name:"Dr. Arunkumar Patel",       title:"Assistant Professor",       dept:"MECH",  deptLabel:"Mechanical Engg.",     phone:"+91 88765 43210", email:"arun.p@univ.edu.in",        free:["Tue 2–4","Thu 10–12","Fri 2–4"],        busy:[] },
-  { id:11, emoji:"🧑‍💻", name:"Dr. Deepa Chandrasekhar",   title:"Associate Professor",       dept:"CIVIL", deptLabel:"Civil Engineering",    phone:"+91 87654 32109", email:"deepa.c@univ.edu.in",       free:["Mon 11–1","Fri 11–1"],                  busy:["Wed 10–12"] },
-  { id:12, emoji:"👨‍🏫", name:"Prof. Mohan Venkatesh",     title:"Professor",                 dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 86543 21098", email:"m.venkatesh@univ.edu.in",   free:["Wed 3–5","Thu 11–1"],                   busy:["Mon 9–11","Tue 3–5"] },
+  { id:1,  emoji:"👩‍💻", name:"Dr. Priya Nair",           title:"Associate Professor",       dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 98765 43210", email:"priya.nair@univ.edu.in",    free:["Mon 10 AM–11 AM","Wed 2 PM–4 PM"],       busy:[] },
+  { id:2,  emoji:"👨‍🔬", name:"Prof. S. Krishnaswamy",    title:"Professor & Head of Dept",  dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 94321 87654", email:"s.krishna@univ.edu.in",     free:["Tue 3 PM–4 PM","Thu 10 AM–12 PM"],                  busy:[] },
+  { id:3,  emoji:"👩‍🏫", name:"Dr. Meena Rajagopalan",    title:"Assistant Professor",       dept:"ECE",   deptLabel:"Electronics & Comm.",  phone:"+91 91234 56789", email:"meena.raj@univ.edu.in",     free:["Mon 2 PM–3 PM","Fri 3 PM–5 PM"],         busy:[] },
+  { id:4,  emoji:"👨‍🏫", name:"Dr. Ramesh Iyer",          title:"Senior Professor",          dept:"MECH",  deptLabel:"Mechanical Engg.",     phone:"+91 97654 32109", email:"r.iyer@univ.edu.in",        free:["Wed 10 AM–12 PM","Fri 2 PM–3 PM"],                  busy:[] },
+  { id:5,  emoji:"👩‍🔬", name:"Dr. Anitha Subramaniam",   title:"Associate Professor",       dept:"MATH",  deptLabel:"Mathematics",          phone:"+91 93456 78901", email:"anitha.s@univ.edu.in",      free:["Mon 11 AM–1 PM","Thu 9 AM–10 AM"],        busy:[] },
+  { id:6,  emoji:"👨‍💼", name:"Prof. Vijay Shankar",       title:"Professor",                 dept:"CIVIL", deptLabel:"Civil Engineering",    phone:"+91 98901 23456", email:"v.shankar@univ.edu.in",     free:["Tue 10 AM–11 AM","Fri 9 AM–11 AM"],                 busy:[] },
+  { id:7,  emoji:"👩‍💼", name:"Dr. Kavitha Menon",         title:"Assistant Professor",       dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 95678 12345", email:"kavitha.m@univ.edu.in",     free:["Mon 9 AM–11 AM","Wed 11 AM–12 PM"],                  busy:[] },
+  { id:8,  emoji:"🧑‍🏫", name:"Dr. Suresh Babu",           title:"Associate Professor",       dept:"ECE",   deptLabel:"Electronics & Comm.",  phone:"+91 99012 34567", email:"suresh.b@univ.edu.in",      free:["Tue 11 AM–1 PM","Thu 3 PM–5 PM"],       busy:[] },
+  { id:9,  emoji:"👩‍🔬", name:"Prof. Lakshmi Devi",        title:"Senior Professor",          dept:"MATH",  deptLabel:"Mathematics",          phone:"+91 90123 45678", email:"lakshmi.d@univ.edu.in",     free:["Mon 3 PM–5 PM","Wed 9 AM–10 AM"],                   busy:[] },
+  { id:10, emoji:"👨‍🔬", name:"Dr. Arunkumar Patel",       title:"Assistant Professor",       dept:"MECH",  deptLabel:"Mechanical Engg.",     phone:"+91 88765 43210", email:"arun.p@univ.edu.in",        free:["Tue 2 PM–3 PM","Thu 10 AM–12 PM"],        busy:[] },
+  { id:11, emoji:"🧑‍💻", name:"Dr. Deepa Chandrasekhar",   title:"Associate Professor",       dept:"CIVIL", deptLabel:"Civil Engineering",    phone:"+91 87654 32109", email:"deepa.c@univ.edu.in",       free:["Mon 11 AM–12 PM","Fri 11 AM–1 PM"],                  busy:[] },
+  { id:12, emoji:"👨‍🏫", name:"Prof. Mohan Venkatesh",     title:"Professor",                 dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 86543 21098", email:"m.venkatesh@univ.edu.in",   free:["Wed 3 PM–5 PM","Thu 11 AM–12 PM"],                   busy:[] },
 ];
 
 const LOCAL_PROJECTS = {
@@ -131,12 +131,18 @@ const api = {
     const url = qs ? `${API_BASE}/projects?${qs}` : `${API_BASE}/projects`;
     return tryFetch(url).then((json) => {
       if (json) return json;
-      // Build flat list from local data
+      // Build flat list from local data, grouped by faculty department
       const all = [];
       Object.entries(LOCAL_PROJECTS).forEach(([fid, projs]) => {
         const member = LOCAL_FACULTY.find((f) => f.id === parseInt(fid));
+        const deptLabel = member?.deptLabel || "Unknown Department";
         projs.forEach((p) =>
-          all.push({ ...p, facultyId: parseInt(fid), facultyName: member?.name, dept: member?.dept })
+          all.push({ 
+            ...p, 
+            facultyId: parseInt(fid), 
+            facultyName: member?.name, 
+            department: deptLabel
+          })
         );
       });
       const result = params.status ? all.filter((p) => p.status === params.status) : all;
@@ -150,7 +156,18 @@ const api = {
       if (json) return json;
       const member   = LOCAL_FACULTY.find((f) => f.id === facultyId);
       const projects = LOCAL_PROJECTS[facultyId] || [];
-      return { faculty: member, count: projects.length, data: projects };
+      return { 
+        faculty: { 
+          id: member?.id,
+          name: member?.name,
+          email: member?.email,
+          department: member?.deptLabel || "Unknown",
+          title: member?.title,
+          emoji: member?.emoji,
+        }, 
+        count: projects.length, 
+        data: projects 
+      };
     });
   },
 };

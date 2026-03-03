@@ -1,52 +1,128 @@
 const express = require("express");
 const router = express.Router();
-const projects = require("../data/projects");
-const faculty = require("../data/faculty");
+const departmentProjects = require("../data/departmentProjects");
+const supabase = require("../db/supabase");
 
-// GET /api/projects — all projects across all faculty
-router.get("/", (req, res) => {
-  const all = [];
-  Object.entries(projects).forEach(([facultyId, projs]) => {
-    const member = faculty.find((f) => f.id === parseInt(facultyId));
-    projs.forEach((p) => {
-      all.push({
-        ...p,
-        facultyId: parseInt(facultyId),
-        facultyName: member ? member.name : "Unknown",
-        dept: member ? member.dept : null,
-      });
+// Normalize department name to match our departmentProjects keys
+function normalizeDepartment(dept) {
+  if (!dept) return null;
+  
+  // Direct match
+  if (departmentProjects[dept]) return dept;
+  
+  // Trim and match
+  const trimmed = dept.trim();
+  if (departmentProjects[trimmed]) return trimmed;
+  
+  // Try to find partial match
+  const deptLower = dept.toLowerCase();
+  for (const key of Object.keys(departmentProjects)) {
+    if (key.toLowerCase().includes(deptLower) || deptLower.includes(key.toLowerCase())) {
+      return key;
+    }
+  }
+  
+  return null;
+}
+
+// GET /api/projects — all projects across all departments
+router.get("/", async (req, res) => {
+  try {
+    const all = [];
+    Object.entries(departmentProjects).forEach(([dept, projs]) => {
+      if (Array.isArray(projs)) {
+        projs.forEach((p) => {
+          if (p && typeof p === 'object') {
+            all.push({
+              ...p,
+              department: dept,
+            });
+          }
+        });
+      }
     });
-  });
 
-  // Optional filter by status
-  const { status } = req.query;
-  const result = status ? all.filter((p) => p.status === status) : all;
+    // Optional filter by status
+    const { status } = req.query;
+    const result = status 
+      ? all.filter((p) => p && p.status === status) 
+      : all;
 
-  res.json({ count: result.length, data: result });
+    res.json({ count: result.length, data: result || [] });
+  } catch (err) {
+    console.error("Error in GET /api/projects:", err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// GET /api/projects/faculty/:id — all projects for a specific faculty member
-router.get("/faculty/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const member = faculty.find((f) => f.id === id);
-  if (!member) return res.status(404).json({ error: "Faculty not found" });
+// GET /api/projects/faculty/:id — all projects for a specific faculty member (by their department)
+router.get("/faculty/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    
+    // Fetch faculty from Supabase
+    const { data: member, error } = await supabase
+      .from("faculty")
+      .select("*")
+      .eq("id", id)
+      .single();
 
-  const result = projects[id] || [];
-  res.json({
-    faculty: member,
-    count: result.length,
-    data: result,
-  });
+    if (error || !member) {
+      return res.status(404).json({ error: "Faculty not found" });
+    }
+
+    // Normalize the department name
+    const normalizedDept = normalizeDepartment(member.department);
+    
+    // Get projects for this faculty member's department
+    let deptProjects = [];
+    if (normalizedDept) {
+      deptProjects = departmentProjects[normalizedDept] || [];
+    }
+    
+    // Ensure we return an array
+    if (!Array.isArray(deptProjects)) {
+      deptProjects = [];
+    }
+
+    res.json({
+      faculty: {
+        id: member.id,
+        name: member.name,
+        email: member.email,
+        department: member.department,
+        office_address: member.office_address,
+      },
+      count: deptProjects.length,
+      data: deptProjects,
+    });
+  } catch (err) {
+    console.error("Error in GET /api/projects/faculty/:id:", err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // GET /api/projects/:projectId — single project by its id string
 router.get("/:projectId", (req, res) => {
-  const { projectId } = req.params;
-  for (const projs of Object.values(projects)) {
-    const found = projs.find((p) => p.id === projectId);
-    if (found) return res.json(found);
+  try {
+    const { projectId } = req.params;
+    
+    if (!projectId) {
+      return res.status(400).json({ error: "Project ID is required" });
+    }
+    
+    for (const projs of Object.values(departmentProjects)) {
+      if (Array.isArray(projs)) {
+        const found = projs.find((p) => p && p.id === projectId);
+        if (found) return res.json(found);
+      }
+    }
+    
+    res.status(404).json({ error: "Project not found" });
+  } catch (err) {
+    console.error("Error in GET /api/projects/:projectId:", err);
+    res.status(500).json({ error: err.message });
   }
-  res.status(404).json({ error: "Project not found" });
 });
 
 module.exports = router;

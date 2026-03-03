@@ -11,7 +11,7 @@ const state = {
   filtered: [],
 
   /** Set of bookmarked faculty IDs */
-  bookmarks: new Set(),
+  bookmarks: new Set(JSON.parse(localStorage.getItem("bookmarks") || "[]")),
 
   /** Whether the Saved filter is active */
   showBookmarked: false,

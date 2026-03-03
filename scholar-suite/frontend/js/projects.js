@@ -36,13 +36,13 @@ function openFacultyProjects(facultyId) {
     });
 }
 
-/** Open the projects page showing all faculty and their projects. */
+/** Open the projects page showing all projects by department. */
 function openAllProjects() {
   const page = document.getElementById("projectsPage");
   const body = document.getElementById("projectsBody");
   const title = document.getElementById("projectsTitle");
 
-  title.innerHTML = "Projects — <span>All Faculty</span>";
+  title.innerHTML = "Projects — <span>All Departments</span>";
   body.innerHTML = `
     <div class="loading-state">
       <div class="loading-spinner"></div>
@@ -51,20 +51,26 @@ function openAllProjects() {
   page.classList.add("open");
   page.scrollTop = 0;
 
-  // Fetch all projects then group by faculty
+  // Fetch all projects then group by department
   api
     .getAllProjects()
     .then(({ data: allProjects }) => {
-      // Group by facultyId
+      // Group by department
       const groups = {};
       allProjects.forEach((p) => {
-        if (!groups[p.facultyId]) groups[p.facultyId] = [];
-        groups[p.facultyId].push(p);
+        const dept = p.department || "Other";
+        if (!groups[dept]) groups[dept] = [];
+        groups[dept].push(p);
       });
 
-      const groupsHTML = state.allFaculty
-        .filter((f) => groups[f.id] && groups[f.id].length > 0)
-        .map((f) => buildFacultyGroupHTML(f, groups[f.id]))
+      // Extract short department code from full name for CSS class
+      const getDeptCode = (deptName) => {
+        const match = (deptName || "").match(/\(([A-Z]+)\)$/);
+        return match ? match[1].toLowerCase() : "unknown";
+      };
+
+      const groupsHTML = Object.entries(groups)
+        .map(([dept, projects]) => buildDepartmentGroupHTML(dept, projects, getDeptCode(dept)))
         .join("");
 
       body.innerHTML = `
@@ -74,6 +80,7 @@ function openAllProjects() {
         ${groupsHTML}`;
     })
     .catch((err) => {
+      console.error("Error loading all projects:", err);
       body.innerHTML = `<p style="padding:40px;color:var(--terracotta)">Error: ${err.message}</p>`;
     });
 }
@@ -86,14 +93,35 @@ function closeProjects() {
 
 // ── HTML builders ────────────────────────────────────────────
 
+/** Build HTML for a department section with all its projects. */
+function buildDepartmentGroupHTML(deptName, projects, deptKey) {
+  return `
+    <div class="department-group">
+      <div class="department-group-header">
+        <div class="department-group-name">${deptName}</div>
+        <div class="department-group-count">${projects.length} Project${projects.length !== 1 ? "s" : ""}</div>
+      </div>
+      <div class="projects-grid">
+        ${projects.map((p) => buildProjectCardHTML(p, deptKey)).join("")}
+      </div>
+    </div>`;
+}
+
 function buildFacultyProjectsHTML(faculty, projects) {
-  const deptKey = faculty.dept.toLowerCase();
+  // Extract short department code from full department name
+  const getDeptCode = (deptName) => {
+    const match = (deptName || "").match(/\(([A-Z]+)\)$/);
+    return match ? match[1].toLowerCase() : (deptName || "unknown").toLowerCase();
+  };
+  
+  const deptKey = getDeptCode(faculty.department || faculty.deptLabel || "");
+  
   return `
     <div class="proj-faculty-hero">
       <div class="proj-faculty-photo">${faculty.emoji || "👤"}</div>
       <div>
         <div class="proj-faculty-name">${faculty.name}</div>
-        <div class="proj-faculty-sub">${faculty.title} · ${faculty.deptLabel}</div>
+        <div class="proj-faculty-sub">${faculty.title} · ${faculty.deptLabel || faculty.department}</div>
         <span class="proj-count-badge">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
             <rect x="2" y="3" width="20" height="14" rx="2"/>
@@ -105,24 +133,11 @@ function buildFacultyProjectsHTML(faculty, projects) {
     </div>
     <div class="projects-section-title">Research &amp; Student Projects</div>
     <div class="projects-grid">
-      ${projects.map((p) => buildProjectCardHTML(p, deptKey)).join("")}
-    </div>`;
-}
-
-function buildFacultyGroupHTML(faculty, projects) {
-  const deptKey = faculty.dept.toLowerCase();
-  return `
-    <div class="faculty-group">
-      <div class="faculty-group-header">
-        <span class="faculty-group-emoji">${faculty.emoji || "👤"}</span>
-        <div>
-          <div class="faculty-group-name">${faculty.name}</div>
-          <div class="faculty-group-sub">${faculty.title} · ${faculty.deptLabel}</div>
-        </div>
-      </div>
-      <div class="projects-grid">
-        ${projects.map((p) => buildProjectCardHTML(p, deptKey)).join("")}
-      </div>
+      ${projects.length > 0 
+        ? projects.map((p) => buildProjectCardHTML(p, deptKey)).join("")
+        : `<div style="padding: 40px; text-align: center; color: var(--ink-muted);">
+             No projects available for this department yet.
+           </div>`}
     </div>`;
 }
 

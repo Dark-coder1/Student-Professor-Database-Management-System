@@ -69,11 +69,13 @@
 
 /* Department colour strip */
 .card-dept-strip { height: 4px; width: 100%; }
-.card-dept-strip.dept-cse   { background: linear-gradient(90deg, #2b5c3f, #3d7a57); }
-.card-dept-strip.dept-ece   { background: linear-gradient(90deg, #2a6c8a, #3a8caa); }
-.card-dept-strip.dept-mech  { background: linear-gradient(90deg, #c85a30, #e07a52); }
-.card-dept-strip.dept-civil { background: linear-gradient(90deg, #c49a1a, #ddb42c); }
-.card-dept-strip.dept-math  { background: linear-gradient(90deg, #6a3d8f, #8a5daf); }
+.card-dept-strip.dept-scope   { background: linear-gradient(90deg, #2b5c3f, #3d7a57); }
+.card-dept-strip.dept-sense   { background: linear-gradient(90deg, #2a6c8a, #3a8caa); }
+.card-dept-strip.dept-smec  { background: linear-gradient(90deg, #c85a30, #e07a52); }
+.card-dept-strip.dept-vsb { background: linear-gradient(90deg, #8b4513, #a0522d); }
+.card-dept-strip.dept-vsl  { background: linear-gradient(90deg, #4a0e4e, #6a2e6e); }
+.card-dept-strip.dept-sas  { background: linear-gradient(90deg, #1e5a7f, #2e7aaf); }
+.card-dept-strip.dept-vish  { background: linear-gradient(90deg, #6b4521, #8b6f47); }
 
 /* Card header */
 .card-head {
@@ -134,11 +136,13 @@
   padding: 2px 10px;
   border-radius: 20px;
 }
-.dept-badge.badge-cse   { background: #e8f3ed; color: #2b5c3f; }
-.dept-badge.badge-ece   { background: #e6f2f7; color: #2a6c8a; }
-.dept-badge.badge-mech  { background: #faeee8; color: #c85a30; }
-.dept-badge.badge-civil { background: #fdf5e6; color: #c49a1a; }
-.dept-badge.badge-math  { background: #f3eef9; color: #6a3d8f; }
+.dept-badge.badge-scope   { background: #e8f3ed; color: #2b5c3f; }
+.dept-badge.badge-sense   { background: #e6f2f7; color: #2a6c8a; }
+.dept-badge.badge-smec  { background: #faeee8; color: #c85a30; }
+.dept-badge.badge-vsb { background: #f5e8d9; color: #8b4513; }
+.dept-badge.badge-vsl  { background: #f0e8f5; color: #4a0e4e; }
+.dept-badge.badge-sas  { background: #e6f0f7; color: #1e5a7f; }
+.dept-badge.badge-vish  { background: #f3ede5; color: #6b4521; }
 
 /* Bookmark corner button */
 .card-bookmark {

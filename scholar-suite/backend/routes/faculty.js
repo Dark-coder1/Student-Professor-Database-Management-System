@@ -2,6 +2,63 @@ const express = require("express");
 const router = express.Router();
 const supabase = require("../db/supabase");
 
+// Generate random free timings (1-2 slots per week, 1-2 hours each, 9 AM to 6 PM)
+function generateFreeTimings() {
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+  const hours = [9, 10, 11, 12, 13, 14, 15, 16, 17]; // 9 AM to 5 PM (slots ending by 6 PM)
+  const timeDurations = [1, 2]; // 1 or 2 hour slots
+  
+  // Randomly select 1 or 2 days
+  const slotsCount = Math.random() > 0.5 ? 1 : 2;
+  const selectedDays = [];
+  
+  // Pick random unique days
+  while (selectedDays.length < slotsCount) {
+    const randomDay = days[Math.floor(Math.random() * days.length)];
+    if (!selectedDays.includes(randomDay)) {
+      selectedDays.push(randomDay);
+    }
+  }
+  
+  // Generate time slots for each day
+  const slots = [];
+  selectedDays.forEach(day => {
+    const randomHour = hours[Math.floor(Math.random() * hours.length)];
+    const duration = timeDurations[Math.floor(Math.random() * timeDurations.length)];
+    const startHour = randomHour;
+    const endHour = startHour + duration;
+    
+    // Format time with AM/PM
+    const formatTime = (hour) => {
+      if (hour < 12) {
+        return { hour: hour === 0 ? 12 : hour, period: "AM" };
+      } else if (hour === 12) {
+        return { hour: 12, period: "PM" };
+      } else {
+        return { hour: hour - 12, period: "PM" };
+      }
+    };
+    
+    const startTime = formatTime(startHour);
+    const endTime = formatTime(endHour);
+    
+    slots.push(`${day} ${startTime.hour} ${startTime.period}–${endTime.hour} ${endTime.period}`);
+  });
+  
+  return slots;
+}
+
+// Generate a random 10-digit Indian mobile number (starting with 6, 7, 8, or 9)
+function generateIndianPhoneNumber() {
+  // First digit must be 6, 7, 8, or 9
+  const firstDigit = [6, 7, 8, 9][Math.floor(Math.random() * 4)];
+  // Generate remaining 9 random digits
+  const remainingDigits = Array.from({ length: 9 }, () => Math.floor(Math.random() * 10)).join("");
+  const fullNumber = firstDigit + remainingDigits;
+  // Format as +91 XXXXX XXXXX (Indian format)
+  return `+91 ${fullNumber.substring(0, 5)} ${fullNumber.substring(5)}`;
+}
+
 // Transform Supabase row to frontend format
 function transformFacultyRow(row) {
   let photoUrl = null;
@@ -30,8 +87,8 @@ function transformFacultyRow(row) {
     photo: photoUrl,
     emoji: "👤",
     title: row.title || "",
-    phone: row.phone || "",
-    free: row.free || [],
+    phone: row.phone || generateIndianPhoneNumber(),
+    free: row.free && row.free.length > 0 ? row.free : generateFreeTimings(),
     busy: row.busy || [],
   };
 }
