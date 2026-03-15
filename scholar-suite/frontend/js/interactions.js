@@ -54,25 +54,42 @@ const interactions = {
         const form = event.target;
         const facultyName = form.querySelector('.faculty-name-placeholder').textContent;
         
-        // Simulate API call
-        console.log("Submitting meeting request...", new FormData(form));
-        
-        this.showToast(`Meeting request sent to Dr. ${facultyName}!`, 'success');
-        this.closeModal('meetingModal');
-        form.reset();
+        const requestData = {
+            facultyName,
+            type: 'Meeting',
+            meetingType: form.querySelector('input[name="meetingType"]:checked').value,
+            dateTime: document.getElementById('meetDateTime').value,
+            reason: document.getElementById('meetReason').value,
+            notes: document.getElementById('meetNotes').value
+        };
+
+        api.sendRequest(requestData).then(() => {
+            this.showToast(`Meeting request sent to ${facultyName}! It will be reviewed soon.`, 'success');
+            this.closeModal('meetingModal');
+            form.reset();
+            if (window.renderRequestHistory) renderRequestHistory();
+        });
     },
 
     /** Handle Message Form Submission */
     submitMessage(event) {
         event.preventDefault();
         const form = event.target;
+        const facultyName = form.querySelector('.faculty-name-placeholder').textContent;
         
-        // Simulate API call
-        console.log("Sending message...", new FormData(form));
+        const requestData = {
+            facultyName,
+            type: 'Message',
+            subject: document.getElementById('msgSubject').value,
+            message: document.getElementById('msgContent').value
+        };
 
-        this.showToast('Message sent successfully!', 'success');
-        this.closeModal('messageModal');
-        form.reset();
+        api.sendRequest(requestData).then(() => {
+            this.showToast('Message sent successfully!', 'success');
+            this.closeModal('messageModal');
+            form.reset();
+            if (window.renderRequestHistory) renderRequestHistory();
+        });
     },
 
     /** Show a toast notification */
@@ -98,6 +115,40 @@ const interactions = {
         }, 4000);
     }
 };
+
+/** Render the request history sidebar. */
+function renderRequestHistory() {
+    const list = document.getElementById('requestsList');
+    if (!list) return;
+
+    if (state.requests.length === 0) {
+        list.innerHTML = `
+            <div class="empty-history" style="padding-top:60px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48" style="margin-bottom:16px; opacity:0.3;">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <p>No past requests found.</p>
+            </div>`;
+        return;
+    }
+
+    list.innerHTML = state.requests.map(req => {
+        const date = new Date(req.timestamp).toLocaleDateString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+        const typeLabel = req.type === 'Meeting' ? '📅 Meeting' : '✉️ Message';
+        
+        return `
+            <div class="history-item request-item status-${req.status}">
+                <div class="history-info">
+                    <div class="history-name">${req.facultyName} <span class="req-status-pill">${req.status}</span></div>
+                    <div class="history-subject">${typeLabel} · ${date}</div>
+                    ${req.type === 'Message' 
+                        ? `<div class="req-preview">Subject: ${req.subject}</div>` 
+                        : `<div class="req-preview">Scheduled: ${new Date(req.dateTime).toLocaleString()}</div>`}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => interactions.init());

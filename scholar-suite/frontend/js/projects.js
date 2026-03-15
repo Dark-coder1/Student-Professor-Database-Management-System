@@ -39,28 +39,43 @@ function openFacultyProjects(facultyId) {
     });
 }
 
-/** Open the projects page showing all projects by department. */
-function openAllProjects() {
+/** Open the projects page showing only projects the student has registered for. */
+function openMyProjects() {
   const page = document.getElementById("projectsPage");
   const body = document.getElementById("projectsBody");
   const title = document.getElementById("projectsTitle");
 
-  title.innerHTML = "Projects — <span>All Departments</span>";
+  title.innerHTML = "Projects — <span>My Registered Projects</span>";
   body.innerHTML = `
     <div class="loading-state">
       <div class="loading-spinner"></div>
-      <p>Loading all projects…</p>
+      <p>Loading your projects…</p>
     </div>`;
   page.classList.add("open");
   page.scrollTop = 0;
 
-  // Fetch all projects then group by department
+  // Fetch registered projects
   api
-    .getAllProjects()
-    .then(({ data: allProjects }) => {
+    .getRegisteredProjects()
+    .then(({ data: myProjects }) => {
+      if (myProjects.length === 0) {
+        body.innerHTML = `
+          <div class="empty-state" style="padding: 100px 40px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="64" height="64" style="margin-bottom: 20px; color: var(--ink-muted);">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+            <h3>No Registered Projects</h3>
+            <p>You haven't registered for any projects yet. Browse faculty profiles to find open projects!</p>
+            <button class="btn-interaction" style="margin-top: 20px;" onclick="closeProjects()">Explore Directory</button>
+          </div>`;
+        return;
+      }
+
       // Group by department
       const groups = {};
-      allProjects.forEach((p) => {
+      myProjects.forEach((p) => {
         const dept = p.department || "Other";
         if (!groups[dept]) groups[dept] = [];
         groups[dept].push(p);
@@ -78,12 +93,12 @@ function openAllProjects() {
 
       body.innerHTML = `
         <div class="projects-section-title" style="margin-bottom:40px;">
-          All Research &amp; Student Projects
+          My Registered Research &amp; Student Projects
         </div>
         ${groupsHTML}`;
     })
     .catch((err) => {
-      console.error("Error loading all projects:", err);
+      console.error("Error loading my projects:", err);
       body.innerHTML = `<p style="padding:40px;color:var(--terracotta)">Error: ${err.message}</p>`;
     });
 }
@@ -182,7 +197,46 @@ function buildFacultyProjectsHTML(faculty, projects) {
         : `<div style="padding: 40px; text-align: center; color: var(--ink-muted);">
              No projects available for this department yet.
            </div>`}
+    </div>
+
+    <!-- Recent Requests Section -->
+    <div class="projects-section-title" style="margin-top: 60px;">Recent Requests to ${faculty.name}</div>
+    <div class="requests-faculty-list">
+      ${renderFacultyRequests(faculty.name)}
     </div>`;
+}
+
+/** Render requests sent specifically to this faculty. */
+function renderFacultyRequests(facultyName) {
+  const relevant = state.requests.filter(r => r.facultyName === facultyName);
+  
+  if (relevant.length === 0) {
+    return `<div style="padding: 30px; border: 1px dashed var(--border-md); border-radius: 8px; text-align: center; color: var(--ink-muted); font-size: 0.9rem;">
+              You haven't sent any requests to ${facultyName} yet.
+            </div>`;
+  }
+
+  return relevant.map(req => {
+    const date = new Date(req.timestamp).toLocaleDateString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+    const typeLabel = req.type === 'Meeting' ? '📅 Meeting' : '✉️ Message';
+    
+    return `
+      <div class="history-item request-item status-${req.status}" style="margin-bottom: 12px; border-radius: 8px; background: white; border: 1px solid var(--border); border-left: 4px solid transparent;">
+        <style>
+          .status-pending { border-left-color: var(--gold) !important; }
+          .status-accepted { border-left-color: var(--forest) !important; }
+          .status-rejected { border-left-color: var(--terracotta) !important; }
+        </style>
+        <div class="history-info">
+          <div class="history-name" style="font-size:0.95rem;">${typeLabel} <span class="req-status-pill">${req.status}</span></div>
+          <div class="history-subject" style="font-size:0.75rem;">Sent on ${date}</div>
+          <div class="req-preview" style="font-size:0.8rem; margin-top:8px;">
+            ${req.type === 'Meeting' ? `Requested for: ${new Date(req.dateTime).toLocaleString()}` : `Subject: ${req.subject}`}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 function buildProjectCardHTML(p, deptKey) {
@@ -191,6 +245,8 @@ function buildProjectCardHTML(p, deptKey) {
     completed: "Completed",
     open:      "Open for Students",
   };
+
+  const isRegistered = state.registeredProjects.has(p.id);
 
   const tags = (p.tags || [])
     .map((t) => `<span class="proj-tag">${t}</span>`)
@@ -209,8 +265,29 @@ function buildProjectCardHTML(p, deptKey) {
          </div>`
       : `<div class="proj-students open-slot">Open — join now</div>`;
 
+  let actionButton = "";
+  if (isRegistered) {
+    actionButton = `
+      <div class="proj-action-group">
+        <div class="proj-registered-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="12" height="12">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Registered
+        </div>
+        <button class="btn-unregister" onclick="unregisterFromProject('${p.id}', this)">
+          Unregister
+        </button>
+      </div>`;
+  } else if (p.status === "open") {
+    actionButton = `
+      <button class="btn-register" onclick="registerForProject('${p.id}', this)">
+        Register
+      </button>`;
+  }
+
   return `
-  <div class="project-card proj-${deptKey}">
+  <div class="project-card proj-${deptKey} ${isRegistered ? 'registered' : ''}">
     <div class="proj-status ${p.status}">${statusLabels[p.status] || p.status}</div>
     <div class="proj-title">${p.title}</div>
     <div class="proj-desc">${p.desc}</div>
@@ -219,5 +296,58 @@ function buildProjectCardHTML(p, deptKey) {
       ${studentsHTML}
       <span>${p.year}</span>
     </div>
+    ${actionButton ? `<div class="proj-footer">${actionButton}</div>` : ""}
   </div>`;
+}
+
+/** Handle registration button click. */
+function registerForProject(projectId, buttonEl) {
+  buttonEl.disabled = true;
+  buttonEl.innerHTML = `<div class="loading-spinner" style="width:14px;height:14px;border-width:2px;margin:0;"></div>`;
+  
+  api.registerForProject(projectId)
+    .then(() => {
+      if (typeof interactions !== 'undefined' && interactions.showToast) {
+        interactions.showToast("Successfully registered for project!");
+      }
+
+      // Re-render current view
+      if (state.currentFacultyId) {
+        openFacultyProjects(state.currentFacultyId);
+      } else {
+        openMyProjects();
+      }
+    })
+    .catch(err => {
+      buttonEl.disabled = false;
+      buttonEl.textContent = "Register";
+      console.error("Registration failed:", err);
+    });
+}
+
+/** Handle unregistration button click. */
+function unregisterFromProject(projectId, buttonEl) {
+  if (!confirm("Are you sure you want to unregister from this project?")) return;
+
+  buttonEl.disabled = true;
+  buttonEl.innerHTML = `<div class="loading-spinner" style="width:14px;height:14px;border-width:2px;margin:0;"></div>`;
+  
+  api.unregisterFromProject(projectId)
+    .then(() => {
+      if (typeof interactions !== 'undefined' && interactions.showToast) {
+        interactions.showToast("Successfully unregistered from project.");
+      }
+
+      // Re-render current view
+      if (state.currentFacultyId) {
+        openFacultyProjects(state.currentFacultyId);
+      } else {
+        openMyProjects();
+      }
+    })
+    .catch(err => {
+      buttonEl.disabled = false;
+      buttonEl.textContent = "Unregister";
+      console.error("Unregistration failed:", err);
+    });
 }

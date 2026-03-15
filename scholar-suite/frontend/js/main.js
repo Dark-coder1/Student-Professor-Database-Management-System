@@ -53,16 +53,27 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("bookmarkToggle")
     .addEventListener("click", toggleBookmarkView);
 
-  // All Projects button
+  // My Projects button
   document
-    .getElementById("allProjectsBtn")
-    .addEventListener("click", openAllProjects);
+    .getElementById("myProjectsBtn")
+    .addEventListener("click", openMyProjects);
 
   // History Sidebar Events
   document.getElementById("historyToggle").addEventListener("click", openHistory);
   document.getElementById("historyClose").addEventListener("click", closeHistory);
   document.getElementById("clearHistoryBtn").addEventListener("click", clearRecentlyViewed);
 
+  // Requests Sidebar Events
+  document.getElementById("requestsToggle").addEventListener("click", openRequests);
+  document.getElementById("requestsClose").addEventListener("click", closeRequests);
+
+  // Auth Events
+  document.getElementById("loginForm").addEventListener("submit", handleLogin);
+  document.getElementById("logoutBtn").addEventListener("click", handleLogout);
+
+  // ── Initial setup ──────────────────────────────────────────
+  checkAuth();
+  
   // ── Projects page events ───────────────────────────────────
 
   document.getElementById("backBtn").addEventListener("click", closeProjects);
@@ -98,5 +109,96 @@ function closeHistory() {
   if (overlay) {
     overlay.classList.remove("active");
     setTimeout(() => overlay.remove(), 300);
+  }
+}
+
+/** Open the requests sidebar. */
+function openRequests() {
+  renderRequestHistory();
+  document.getElementById("requestsSidebar").classList.add("open");
+  // Use history overlay logic
+  let overlay = document.getElementById("historyOverlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "historyOverlay";
+    overlay.className = "history-sidebar-overlay";
+    overlay.addEventListener("click", closeRequests);
+    document.body.appendChild(overlay);
+  } else {
+    // If already there, ensure it closes requests
+    overlay.onclick = closeRequests;
+  }
+  setTimeout(() => overlay.classList.add("active"), 10);
+}
+
+/** Close the requests sidebar. */
+function closeRequests() {
+  document.getElementById("requestsSidebar").classList.remove("open");
+  const overlay = document.getElementById("historyOverlay");
+  if (overlay) {
+    overlay.classList.remove("active");
+    setTimeout(() => overlay.remove(), 300);
+  }
+}
+
+/** Check authentication status and update UI. */
+function checkAuth() {
+  const loginScreen = document.getElementById("loginScreen");
+  if (state.isLoggedIn) {
+    loginScreen.classList.remove("active");
+    document.body.classList.remove("auth-required");
+    updateUserUI();
+  } else {
+    loginScreen.classList.add("active");
+    document.body.classList.add("auth-required");
+  }
+}
+
+/** Handle login form submission. */
+function handleLogin(e) {
+  e.preventDefault();
+  
+  const nameInput = document.getElementById("userNameInput").value;
+  state.userName = nameInput || "User";
+  state.isLoggedIn = true;
+  
+  localStorage.setItem("isLoggedIn", "true");
+  localStorage.setItem("userName", state.userName);
+  
+  if (typeof interactions !== 'undefined') {
+    interactions.showToast(`Welcome back, ${state.userName.split(' ')[0]}!`, "success");
+  }
+  
+  checkAuth();
+}
+
+/** Handle logout. */
+function handleLogout() {
+  if (!confirm("Are you sure you want to log out?")) return;
+  
+  state.isLoggedIn = false;
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("userName");
+  
+  checkAuth();
+  
+  if (typeof interactions !== 'undefined') {
+    interactions.showToast("Logged out successfully.", "success");
+  }
+}
+
+/** Update the student profile pill with the actual user data. */
+function updateUserUI() {
+  const nameDisplay = document.getElementById("studentNameDisplay");
+  const avatarDisplay = document.getElementById("studentAvatar");
+  
+  if (nameDisplay) nameDisplay.textContent = state.userName;
+  
+  if (avatarDisplay) {
+    const names = state.userName.trim().split(' ');
+    const initials = names.length > 1 
+      ? (names[0][0] + names[names.length - 1][0]).toUpperCase()
+      : names[0].substring(0, 2).toUpperCase();
+    avatarDisplay.textContent = initials;
   }
 }

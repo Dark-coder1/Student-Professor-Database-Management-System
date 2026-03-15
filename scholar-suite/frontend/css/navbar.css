@@ -189,6 +189,48 @@
 }
 .bookmark-btn.active svg path { fill: var(--gold); }
 
+/* ── History & Requests buttons ──────────────────────────── */
+.history-btn,
+.requests-nav-btn {
+  height: 40px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid var(--border-md);
+  border-radius: 40px;
+  cursor: pointer;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink-light);
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.history-btn:hover {
+  border-color: var(--forest);
+  color: var(--forest);
+  background: #f0f7f3;
+}
+
+.requests-nav-btn:hover {
+  border-color: var(--sky);
+  color: var(--sky);
+  background: #f0f6f9;
+}
+
+.history-btn svg,
+.requests-nav-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.requests-nav-btn:hover svg {
+  stroke: var(--sky);
+}
+
 /* ── Projects nav button ─────────────────────────────────────── */
 .projects-nav-btn {
   height: 40px;
@@ -226,6 +268,25 @@
   flex-shrink: 0;
 }
 
+.logout-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  margin-left: 4px;
+  color: var(--ink-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  border-radius: 50%;
+}
+
+.logout-btn:hover {
+  background: var(--terracotta-pale);
+  color: var(--terracotta);
+}
+
 .student-avatar {
   width: 30px;
   height: 30px;
@@ -247,8 +308,15 @@
 
 /* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .navbar { padding: 0 16px; gap: 10px; }
-  .nav-brand { font-size: 1rem; }
-  .search-wrap { max-width: 160px; }
+  .navbar { padding: 0 16px; gap: 8px; }
+  .nav-brand { font-size: 0.95rem; }
+  .search-wrap { max-width: 130px; }
+  
+  .bookmark-btn span, 
+  .history-btn span, 
+  .requests-nav-btn span { display: none; }
+  
+  .bookmark-btn, .history-btn, .requests-nav-btn { padding: 0 10px; }
+  
   .student-name { display: none; }
 }

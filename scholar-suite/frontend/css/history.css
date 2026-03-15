@@ -159,35 +159,7 @@
   opacity: 0.3;
 }
 
-/* Navbar button specific */
-.history-btn {
-  height: 40px;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: white;
-  border: 1px solid var(--border-md);
-  border-radius: 40px;
-  cursor: pointer;
-  font-family: 'Barlow', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--ink-light);
-  white-space: nowrap;
-  transition: all 0.2s;
-}
-
-.history-btn:hover {
-  border-color: var(--forest);
-  color: var(--forest);
-  background: #f0f7f3;
-}
-
-.history-btn svg {
-  width: 15px;
-  height: 15px;
-}
+/* Navbar button specific - already handled in navbar.css */
 
 .history-sidebar-overlay {
   position: fixed;

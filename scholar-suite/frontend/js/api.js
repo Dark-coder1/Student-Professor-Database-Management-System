@@ -170,4 +170,103 @@ const api = {
       };
     });
   },
+
+  /** Register for a project (local only for now). */
+  registerForProject(projectId) {
+    return new Promise((resolve) => {
+      // Update state
+      state.registeredProjects.add(projectId);
+      
+      // Persist to localStorage
+      localStorage.setItem(
+        "registeredProjects", 
+        JSON.stringify(Array.from(state.registeredProjects))
+      );
+      
+      // Mock network delay
+      setTimeout(() => {
+        resolve({ success: true, projectId });
+      }, 300);
+    });
+  },
+
+  /** Unregister from a project. */
+  unregisterFromProject(projectId) {
+    return new Promise((resolve) => {
+      // Update state
+      state.registeredProjects.delete(projectId);
+      
+      // Persist to localStorage
+      localStorage.setItem(
+        "registeredProjects", 
+        JSON.stringify(Array.from(state.registeredProjects))
+      );
+      
+      // Mock network delay
+      setTimeout(() => {
+        resolve({ success: true, projectId });
+      }, 300);
+    });
+  },
+
+  /** Get only registered projects across all faculty. */
+  getRegisteredProjects() {
+    return this.getAllProjects().then(({ data: allProjects }) => {
+      const registered = allProjects.filter(p => state.registeredProjects.has(p.id));
+      return { count: registered.length, data: registered };
+    });
+  },
+
+  /** Send a request (meeting or message) and trigger auto-resolution. */
+  sendRequest(requestData) {
+    return new Promise((resolve) => {
+      const newRequest = {
+        id: "req-" + Date.now(),
+        timestamp: new Date().toISOString(),
+        status: "pending",
+        ...requestData
+      };
+
+      state.requests.unshift(newRequest);
+      this._persistRequests();
+      
+      // Auto-resolution after 30 seconds
+      setTimeout(() => {
+        const statuses = ["accepted", "rejected"];
+        const finalStatus = statuses[Math.floor(Math.random() * statuses.length)];
+        this.updateRequestStatus(newRequest.id, finalStatus);
+        
+        // Notify user via toast if interactions exists
+        if (typeof interactions !== 'undefined' && interactions.showToast) {
+          const type = finalStatus === 'accepted' ? 'success' : 'error';
+          interactions.showToast(`Request to ${newRequest.facultyName} was ${finalStatus}.`, type);
+        }
+      }, 30000);
+
+      resolve(newRequest);
+    });
+  },
+
+  /** Update status of a specific request. */
+  updateRequestStatus(requestId, status) {
+    const req = state.requests.find(r => r.id === requestId);
+    if (req) {
+      req.status = status;
+      this._persistRequests();
+      
+      // Update UI if relevant helpers exist
+      if (window.renderRequestHistory) renderRequestHistory();
+      if (state.currentFacultyId && window.openFacultyProjects) {
+        // Redraw current faculty view to show status change if same faculty
+        const currentFaculty = state.allFaculty.find(f => f.id === state.currentFacultyId);
+        if (currentFaculty && currentFaculty.name === req.facultyName) {
+           openFacultyProjects(state.currentFacultyId);
+        }
+      }
+    }
+  },
+
+  _persistRequests() {
+    localStorage.setItem("requests", JSON.stringify(state.requests));
+  }
 };

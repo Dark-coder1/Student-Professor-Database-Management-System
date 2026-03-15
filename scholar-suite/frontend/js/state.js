@@ -27,4 +27,16 @@ const state = {
 
   /** Recently viewed faculty IDs (up to 10) */
   recentlyViewed: JSON.parse(localStorage.getItem("recentlyViewed") || "[]"),
+
+  /** IDs of projects the student has registered for */
+  registeredProjects: new Set(JSON.parse(localStorage.getItem("registeredProjects") || "[]")),
+
+  /** Interaction requests sent by the student */
+  requests: JSON.parse(localStorage.getItem("requests") || "[]"),
+
+  /** Authentication status */
+  isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
+
+  /** User Profile Data */
+  userName: localStorage.getItem("userName") || "Arjun M.",
 };

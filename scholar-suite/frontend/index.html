@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/projects.css">
   <link rel="stylesheet" href="css/interactions.css">
   <link rel="stylesheet" href="css/history.css">
+  <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
 
@@ -56,25 +57,37 @@
       Saved
     </button>
 
-    <button class="projects-nav-btn" id="allProjectsBtn">
+    <button class="projects-nav-btn" id="myProjectsBtn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="2" y="3" width="20" height="14" rx="2"/>
         <line x1="8" y1="21" x2="16" y2="21"/>
         <line x1="12" y1="17" x2="12" y2="21"/>
       </svg>
-      All Projects
+      My Projects
     </button>
     
     <button class="history-btn" id="historyToggle">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
       </svg>
-      History
+      <span>History</span>
+    </button>
+
+    <button class="requests-nav-btn" id="requestsToggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      <span>Requests</span>
     </button>
 
     <div class="student-pill">
-      <div class="student-avatar">AM</div>
-      <span class="student-name">Arjun M.</span>
+      <div class="student-avatar" id="studentAvatar">AM</div>
+      <span class="student-name" id="studentNameDisplay">Arjun M.</span>
+      <button class="logout-btn" id="logoutBtn" title="Logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14l5-5-5-5m5 5H9"/>
+        </svg>
+      </button>
     </div>
   </nav>
 
@@ -134,30 +147,30 @@
           <label class="form-label">Meeting Type</label>
           <div class="pill-selector">
             <label class="pill-option">
-              <input type="radio" name="meetingType" value="video" checked>
+              <input type="radio" name="meetingType" value="video" id="meetVideo" checked>
               <div class="pill-label">📹 Video Call</div>
             </label>
             <label class="pill-option">
-              <input type="radio" name="meetingType" value="audio">
+              <input type="radio" name="meetingType" value="audio" id="meetAudio">
               <div class="pill-label">📞 Audio Call</div>
             </label>
             <label class="pill-option">
-              <input type="radio" name="meetingType" value="in-person">
+              <input type="radio" name="meetingType" value="in-person" id="meetInPerson">
               <div class="pill-label">🏢 In-Person</div>
             </label>
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">Preferred Date & Time</label>
-          <input type="datetime-local" class="form-input" required>
+          <input type="datetime-local" class="form-input" id="meetDateTime" required>
         </div>
         <div class="form-group">
           <label class="form-label">Reason for Meeting</label>
-          <textarea class="form-textarea" placeholder="e.g. project help, research query..." required></textarea>
+          <textarea class="form-textarea" id="meetReason" placeholder="e.g. project help, research query..." required></textarea>
         </div>
         <div class="form-group">
           <label class="form-label">Additional Notes (Optional)</label>
-          <textarea class="form-textarea" placeholder="Any extra details..."></textarea>
+          <textarea class="form-textarea" id="meetNotes" placeholder="Any extra details..."></textarea>
         </div>
         <span class="faculty-name-placeholder" style="display:none"></span>
         <button type="submit" class="form-submit-btn">Submit Request</button>
@@ -179,11 +192,11 @@
       <form class="interaction-form" onsubmit="interactions.submitMessage(event)">
         <div class="form-group">
           <label class="form-label">Subject</label>
-          <input type="text" class="form-input" placeholder="What is this regarding?" required>
+          <input type="text" class="form-input" id="msgSubject" placeholder="What is this regarding?" required>
         </div>
         <div class="form-group">
           <label class="form-label">Message</label>
-          <textarea class="form-textarea" placeholder="Write your message here..." required></textarea>
+          <textarea class="form-textarea" id="msgContent" placeholder="Write your message here..." required></textarea>
         </div>
         <button type="submit" class="form-submit-btn">Send Message</button>
       </form>
@@ -213,10 +226,54 @@
     </div>
   </div>
 
+  <!-- Requests History Sidebar -->
+  <div class="history-sidebar" id="requestsSidebar">
+    <div class="sidebar-header">
+      <h2 class="sidebar-title">Request History</h2>
+      <button class="sidebar-close" id="requestsClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sidebar-content" id="requestsList">
+      <!-- Populated by renderRequestHistory() -->
+    </div>
+  </div>
+
   <!-- Toast Container -->
   <div id="toastContainer"></div>
 
   <!-- ── SCRIPTS ────────────────────────────────────────────── -->
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-container">
+      <div class="login-logo">Scholar<span>·Suite</span></div>
+      <div class="login-header">
+        <h1>Welcome Back</h1>
+        <p>Please log in to your account</p>
+      </div>
+      <form class="login-form" id="loginForm">
+        <div class="login-input-group">
+          <label class="login-label">Full Name</label>
+          <input type="text" class="login-input" id="userNameInput" placeholder="Enter your name" value="Arjun M." required>
+        </div>
+        <div class="login-input-group">
+          <label class="login-label">Email Address</label>
+          <input type="email" class="login-input" placeholder="student@university.edu" value="arjun@mit.edu" required>
+        </div>
+        <div class="login-input-group">
+          <label class="login-label">Password</label>
+          <input type="password" class="login-input" placeholder="••••••••" value="password123" required>
+        </div>
+        <button type="submit" class="login-btn">Log In</button>
+      </form>
+      <div class="login-footer">
+        Don't have an account? <a href="#">Create Request</a>
+      </div>
+    </div>
+  </div>
+
   <script src="js/api.js"></script>
   <script src="js/state.js"></script>
   <script src="js/render.js"></script>

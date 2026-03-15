@@ -233,3 +233,38 @@
     height: 20px;
     color: #4caf50;
 }
+
+/* ── Request History Items ───────────────────────────────────── */
+.request-item {
+    border-left: 4px solid var(--border-md);
+    transition: all 0.2s;
+}
+
+.request-item.status-pending { border-left-color: var(--gold); }
+.request-item.status-accepted { border-left-color: var(--forest); }
+.request-item.status-rejected { border-left-color: var(--terracotta); }
+
+.req-status-pill {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+    letter-spacing: 0.05em;
+}
+
+.status-pending .req-status-pill { background: #fdf5e6; color: var(--gold); }
+.status-accepted .req-status-pill { background: #e8f3ed; color: var(--forest); }
+.status-rejected .req-status-pill { background: #f9ece8; color: var(--terracotta); }
+
+.req-preview {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dotted var(--border);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
