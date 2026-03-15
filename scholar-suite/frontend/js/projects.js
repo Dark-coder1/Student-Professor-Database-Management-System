@@ -129,6 +129,20 @@ function buildFacultyProjectsHTML(faculty, projects) {
           </svg>
           ${projects.length} Registered Project${projects.length !== 1 ? "s" : ""}
         </span>
+        <div class="interaction-actions">
+          <button class="btn-interaction btn-meeting" onclick="interactions.openModal('meetingModal', '${faculty.name.replace(/'/g, "\\'")}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            Request Meeting
+          </button>
+          <button class="btn-interaction btn-message" onclick="interactions.openModal('messageModal', '${faculty.name.replace(/'/g, "\\'")}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Send Message
+          </button>
+        </div>
       </div>
     </div>
     <div class="projects-section-title">Research &amp; Student Projects</div>
