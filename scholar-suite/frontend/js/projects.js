@@ -21,6 +21,9 @@ function openFacultyProjects(facultyId) {
   page.classList.add("open");
   page.scrollTop = 0;
 
+  // Track history
+  addToRecentlyViewed(facultyId);
+
   api
     .getProjectsByFaculty(facultyId)
     .then(({ faculty, data: projects }) => {
@@ -89,6 +92,33 @@ function openAllProjects() {
 function closeProjects() {
   document.getElementById("projectsPage").classList.remove("open");
   state.currentFacultyId = null;
+}
+
+/** Add a faculty ID to the recently viewed list. */
+function addToRecentlyViewed(facultyId) {
+  // Remove if already exists (to move to top)
+  state.recentlyViewed = state.recentlyViewed.filter(id => id !== facultyId);
+  
+  // Add to beginning
+  state.recentlyViewed.unshift(facultyId);
+  
+  // Cap at 10
+  if (state.recentlyViewed.length > 10) {
+    state.recentlyViewed.pop();
+  }
+  
+  // Persist
+  localStorage.setItem("recentlyViewed", JSON.stringify(state.recentlyViewed));
+  
+  // Update UI if render RecentlyViewed exists
+  if (window.renderRecentlyViewed) renderRecentlyViewed();
+}
+
+/** Clear all history. */
+function clearRecentlyViewed() {
+  state.recentlyViewed = [];
+  localStorage.setItem("recentlyViewed", JSON.stringify([]));
+  if (window.renderRecentlyViewed) renderRecentlyViewed();
 }
 
 // ── HTML builders ────────────────────────────────────────────

@@ -24,4 +24,7 @@ const state = {
 
   /** ID of the faculty whose projects page is open (null = closed) */
   currentFacultyId: null,
+
+  /** Recently viewed faculty IDs (up to 10) */
+  recentlyViewed: JSON.parse(localStorage.getItem("recentlyViewed") || "[]"),
 };

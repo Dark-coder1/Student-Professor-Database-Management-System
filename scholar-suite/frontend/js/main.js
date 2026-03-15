@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(({ data }) => {
       state.allFaculty = data;
       renderCards();
+      renderRecentlyViewed();
     })
     .catch((err) => {
       document.getElementById("facultyGrid").innerHTML = `
@@ -57,12 +58,45 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("allProjectsBtn")
     .addEventListener("click", openAllProjects);
 
+  // History Sidebar Events
+  document.getElementById("historyToggle").addEventListener("click", openHistory);
+  document.getElementById("historyClose").addEventListener("click", closeHistory);
+  document.getElementById("clearHistoryBtn").addEventListener("click", clearRecentlyViewed);
+
   // ── Projects page events ───────────────────────────────────
 
   document.getElementById("backBtn").addEventListener("click", closeProjects);
 
-  // Keyboard: Escape closes the projects page
+  // Keyboard: Escape closes things
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeProjects();
+    if (e.key === "Escape") {
+      closeProjects();
+      closeHistory();
+    }
   });
 });
+
+/** Open the history sidebar. */
+function openHistory() {
+  document.getElementById("historySidebar").classList.add("open");
+  // Create and show overlay if it doesn't exist
+  let overlay = document.getElementById("historyOverlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "historyOverlay";
+    overlay.className = "history-sidebar-overlay";
+    overlay.addEventListener("click", closeHistory);
+    document.body.appendChild(overlay);
+  }
+  setTimeout(() => overlay.classList.add("active"), 10);
+}
+
+/** Close the history sidebar. */
+function closeHistory() {
+  document.getElementById("historySidebar").classList.remove("open");
+  const overlay = document.getElementById("historyOverlay");
+  if (overlay) {
+    overlay.classList.remove("active");
+    setTimeout(() => overlay.remove(), 300);
+  }
+}

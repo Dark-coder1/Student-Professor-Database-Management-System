@@ -139,3 +139,37 @@ function showGridLoading() {
       <p>Loading faculty…</p>
     </div>`;
 }
+
+/** Render the recently viewed list in the sidebar. */
+function renderRecentlyViewed() {
+  const historyList = document.getElementById("historyList");
+  if (!historyList) return;
+
+  if (state.recentlyViewed.length === 0) {
+    historyList.innerHTML = `
+      <div class="empty-history">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <p>No recently viewed faculty.</p>
+      </div>`;
+    return;
+  }
+
+  // Get full faculty objects for the IDs in history
+  const viewedFaculty = state.recentlyViewed
+    .map(id => state.allFaculty.find(f => f.id === id))
+    .filter(Boolean);
+
+  historyList.innerHTML = viewedFaculty.map(f => `
+    <div class="history-item" onclick="openFacultyProjects(${f.id}); closeHistory();">
+      <div class="history-avatar">
+        ${f.photo ? `<img src="${f.photo}" alt="${f.name}" onerror="this.innerHTML='${f.emoji || '👤'}'">` : f.emoji || "👤"}
+      </div>
+      <div class="history-info">
+        <div class="history-name">${f.name}</div>
+        <div class="history-subject">${f.deptLabel || f.title}</div>
+      </div>
+    </div>
+  `).join("");
+}

@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/faculty.css">
   <link rel="stylesheet" href="css/projects.css">
   <link rel="stylesheet" href="css/interactions.css">
+  <link rel="stylesheet" href="css/history.css">
 </head>
 <body>
 
@@ -62,6 +63,13 @@
         <line x1="12" y1="17" x2="12" y2="21"/>
       </svg>
       All Projects
+    </button>
+    
+    <button class="history-btn" id="historyToggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      History
     </button>
 
     <div class="student-pill">
@@ -179,6 +187,29 @@
         </div>
         <button type="submit" class="form-submit-btn">Send Message</button>
       </form>
+    </div>
+  </div>
+
+  <!-- History Sidebar -->
+  <div class="history-sidebar" id="historySidebar">
+    <div class="sidebar-header">
+      <h2 class="sidebar-title">Recently Viewed</h2>
+      <button class="sidebar-close" id="historyClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sidebar-content" id="historyList">
+      <!-- Populated by renderRecentlyViewed() -->
+    </div>
+    <div class="sidebar-footer">
+      <button class="btn-clear-history" id="clearHistoryBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+          <path d="M19 6L18.1 18.2C18 19.3 17.1 20.1 16 20.1H8C6.9 20.1 6 19.3 5.9 18.2L5 6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6m4-6v6"/>
+        </svg>
+        Clear History
+      </button>
     </div>
   </div>
 
