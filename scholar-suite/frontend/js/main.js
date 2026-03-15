@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Requests Sidebar Events
   document.getElementById("requestsToggle").addEventListener("click", openRequests);
   document.getElementById("requestsClose").addEventListener("click", closeRequests);
+  document.getElementById("clearRequestsBtn").addEventListener("click", clearRequestsRecords);
 
   // Auth Events
   document.getElementById("loginForm").addEventListener("submit", handleLogin);
@@ -129,6 +130,18 @@ function openRequests() {
     overlay.onclick = closeRequests;
   }
   setTimeout(() => overlay.classList.add("active"), 10);
+}
+
+/** Clear request history records. */
+function clearRequestsRecords() {
+  if (state.requests.length === 0) return;
+  if (!confirm("Are you sure you want to clear your entire request history?")) return;
+  
+  api.clearRequests();
+  
+  if (typeof interactions !== 'undefined') {
+    interactions.showToast("Request history cleared.", "success");
+  }
 }
 
 /** Close the requests sidebar. */

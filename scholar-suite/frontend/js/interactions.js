@@ -134,16 +134,27 @@ function renderRequestHistory() {
 
     list.innerHTML = state.requests.map(req => {
         const date = new Date(req.timestamp).toLocaleDateString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
-        const typeLabel = req.type === 'Meeting' ? '📅 Meeting' : '✉️ Message';
         
+        let typeLabel = "";
+        let preview = "";
+        
+        if (req.type === 'Meeting') {
+            typeLabel = "📅 Meeting";
+            preview = `Scheduled: ${new Date(req.dateTime).toLocaleString()}`;
+        } else if (req.type === 'Message') {
+            typeLabel = req.isIncoming ? "📩 Incoming Message" : "✉️ Message";
+            preview = req.isIncoming ? req.message : `Subject: ${req.subject}`;
+        } else if (req.type === 'Registration') {
+            typeLabel = "📝 Project Registration";
+            preview = `Project: ${req.projectTitle}`;
+        }
+
         return `
             <div class="history-item request-item status-${req.status}">
                 <div class="history-info">
-                    <div class="history-name">${req.facultyName} <span class="req-status-pill">${req.status}</span></div>
+                    <div class="history-name">${req.isIncoming ? 'From: ' : 'To: '}${req.facultyName} <span class="req-status-pill">${req.status}</span></div>
                     <div class="history-subject">${typeLabel} · ${date}</div>
-                    ${req.type === 'Message' 
-                        ? `<div class="req-preview">Subject: ${req.subject}</div>` 
-                        : `<div class="req-preview">Scheduled: ${new Date(req.dateTime).toLocaleString()}</div>`}
+                    <div class="req-preview">${preview}</div>
                 </div>
             </div>
         `;

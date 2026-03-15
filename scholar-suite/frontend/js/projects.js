@@ -218,7 +218,20 @@ function renderFacultyRequests(facultyName) {
 
   return relevant.map(req => {
     const date = new Date(req.timestamp).toLocaleDateString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
-    const typeLabel = req.type === 'Meeting' ? '📅 Meeting' : '✉️ Message';
+    
+    let typeLabel = "";
+    let preview = "";
+    
+    if (req.type === 'Meeting') {
+      typeLabel = "📅 Meeting";
+      preview = `Requested for: ${new Date(req.dateTime).toLocaleString()}`;
+    } else if (req.type === 'Message') {
+      typeLabel = "✉️ Message";
+      preview = `Subject: ${req.subject}`;
+    } else if (req.type === 'Registration') {
+      typeLabel = "📝 Registration";
+      preview = `Project: ${req.projectTitle}`;
+    }
     
     return `
       <div class="history-item request-item status-${req.status}" style="margin-bottom: 12px; border-radius: 8px; background: white; border: 1px solid var(--border); border-left: 4px solid transparent;">
@@ -228,10 +241,10 @@ function renderFacultyRequests(facultyName) {
           .status-rejected { border-left-color: var(--terracotta) !important; }
         </style>
         <div class="history-info">
-          <div class="history-name" style="font-size:0.95rem;">${typeLabel} <span class="req-status-pill">${req.status}</span></div>
-          <div class="history-subject" style="font-size:0.75rem;">Sent on ${date}</div>
+          <div class="history-name" style="font-size:0.95rem;">${req.isIncoming ? 'From: ' : 'To: '}${req.facultyName} <span class="req-status-pill">${req.status}</span></div>
+          <div class="history-subject" style="font-size:0.75rem;">${typeLabel} · Sent on ${date}</div>
           <div class="req-preview" style="font-size:0.8rem; margin-top:8px;">
-            ${req.type === 'Meeting' ? `Requested for: ${new Date(req.dateTime).toLocaleString()}` : `Subject: ${req.subject}`}
+            ${preview}
           </div>
         </div>
       </div>
@@ -247,6 +260,7 @@ function buildProjectCardHTML(p, deptKey) {
   };
 
   const isRegistered = state.registeredProjects.has(p.id);
+  const isPending = state.requests.some(r => r.type === "Registration" && r.projectId === p.id && r.status === "pending");
 
   const tags = (p.tags || [])
     .map((t) => `<span class="proj-tag">${t}</span>`)
@@ -279,9 +293,15 @@ function buildProjectCardHTML(p, deptKey) {
           Unregister
         </button>
       </div>`;
+  } else if (isPending) {
+    actionButton = `
+      <div class="proj-pending-badge">
+        <div class="loading-spinner" style="width:12px;height:12px;border-width:2px;margin-right:8px;"></div>
+        Pending Selection
+      </div>`;
   } else if (p.status === "open") {
     actionButton = `
-      <button class="btn-register" onclick="registerForProject('${p.id}', this)">
+      <button class="btn-register" onclick="registerForProject('${p.id}', '${p.title.replace(/'/g, "\\'")}', this)">
         Register
       </button>`;
   }
@@ -301,11 +321,18 @@ function buildProjectCardHTML(p, deptKey) {
 }
 
 /** Handle registration button click. */
-function registerForProject(projectId, buttonEl) {
+function registerForProject(projectId, projectTitle, buttonEl) {
   buttonEl.disabled = true;
   buttonEl.innerHTML = `<div class="loading-spinner" style="width:14px;height:14px;border-width:2px;margin:0;"></div>`;
   
-  api.registerForProject(projectId)
+  // Find faculty name from state
+  let facultyName = "Unknown Faculty";
+  if (state.currentFacultyId) {
+    const faculty = state.allFaculty.find(f => f.id === state.currentFacultyId);
+    if (faculty) facultyName = faculty.name;
+  }
+
+  api.registerForProject(projectId, projectTitle, facultyName)
     .then(() => {
       if (typeof interactions !== 'undefined' && interactions.showToast) {
         interactions.showToast("Successfully registered for project!");

@@ -171,22 +171,105 @@ const api = {
     });
   },
 
-  /** Register for a project (local only for now). */
-  registerForProject(projectId) {
+  /** Register for a project (mock with 20s selection timer). */
+  registerForProject(projectId, providedTitle = null, providedFacultyName = null) {
     return new Promise((resolve) => {
-      // Update state
-      state.registeredProjects.add(projectId);
+      // Find project info for the request entry
+      let projectTitle = providedTitle || "Project";
+      let facultyName = providedFacultyName || "Unknown Faculty";
       
-      // Persist to localStorage
-      localStorage.setItem(
-        "registeredProjects", 
-        JSON.stringify(Array.from(state.registeredProjects))
-      );
+      // Fallback lookup in local data if not provided
+      if (!providedTitle || !providedFacultyName) {
+        for (const [fid, projs] of Object.entries(LOCAL_PROJECTS)) {
+          const found = projs.find(p => p.id === projectId);
+          if (found) {
+            projectTitle = providedTitle || found.title;
+            const member = LOCAL_FACULTY.find(f => f.id === parseInt(fid));
+            facultyName = providedFacultyName || (member ? member.name : facultyName);
+            break;
+          }
+        }
+      }
+
+      const newRequest = {
+        id: "reg-" + Date.now(),
+        type: "Registration",
+        projectId: projectId,
+        projectTitle: projectTitle,
+        facultyName: facultyName,
+        timestamp: new Date().toISOString(),
+        status: "pending"
+      };
+
+      state.requests.unshift(newRequest);
+      this._persistRequests();
       
-      // Mock network delay
+      // Notify UI
+      if (window.renderRequestHistory) renderRequestHistory();
+
+      // Selection Timer (20 seconds)
       setTimeout(() => {
-        resolve({ success: true, projectId });
-      }, 300);
+        // 60% chance of acceptance, 40% chance of rejection for a "realistic" feel
+        const finalStatus = Math.random() > 0.4 ? "accepted" : "rejected";
+        
+        this.updateRequestStatus(newRequest.id, finalStatus);
+        
+        const acceptMsgs = [
+          `Dear student, I am pleased to inform you that you have been selected for the "${newRequest.projectTitle}" project. Welcome aboard!`,
+          `I've reviewed your profile and would love to have you on the "${newRequest.projectTitle}" team. Let's get started soon!`,
+          `Congratulations! Your registration for "${newRequest.projectTitle}" has been approved. Meet me in my office next Monday.`
+        ];
+        
+        const rejectMsgs = [
+          `Thank you for your interest in "${newRequest.projectTitle}". Unfortunately, we have decided to move forward with other candidates at this time.`,
+          `The slots for "${newRequest.projectTitle}" are currently full. I encourage you to apply for other projects in our department.`,
+          `We appreciate your application, but we are looking for students with different specialized skills for "${newRequest.projectTitle}" right now.`
+        ];
+
+        let responseMsg = finalStatus === "accepted" 
+          ? acceptMsgs[Math.floor(Math.random() * acceptMsgs.length)]
+          : rejectMsgs[Math.floor(Math.random() * rejectMsgs.length)];
+
+        if (finalStatus === "accepted") {
+          state.registeredProjects.add(projectId);
+          localStorage.setItem(
+            "registeredProjects", 
+            JSON.stringify(Array.from(state.registeredProjects))
+          );
+        }
+
+        // Add an actual "Message" from the professor to the history
+        const professorResponse = {
+          id: "msg-res-" + Date.now(),
+          type: "Message",
+          facultyName: newRequest.facultyName,
+          subject: `RESPONSE: ${newRequest.projectTitle}`,
+          message: responseMsg,
+          timestamp: new Date().toISOString(),
+          status: "accepted", // Responses are always "accepted" as they are the final word
+          isIncoming: true    // New flag to distinguish
+        };
+        state.requests.unshift(professorResponse);
+        this._persistRequests();
+
+        // Notify user
+        if (typeof interactions !== 'undefined' && interactions.showToast) {
+          const type = finalStatus === 'accepted' ? 'success' : 'error';
+          interactions.showToast(finalStatus === 'accepted' ? 'Selected for project!' : 'Registration rejected', type);
+        }
+
+        // Re-render
+        if (window.renderRequestHistory) renderRequestHistory();
+
+        // Re-render project views
+        if (window.openFacultyProjects && state.currentFacultyId) {
+          openFacultyProjects(state.currentFacultyId);
+        } else if (window.openMyProjects) {
+          openMyProjects();
+        }
+      }, 20000);
+
+      resolve({ success: true, requestId: newRequest.id });
     });
   },
 
@@ -232,15 +315,34 @@ const api = {
       
       // Auto-resolution after 30 seconds
       setTimeout(() => {
-        const statuses = ["accepted", "rejected"];
-        const finalStatus = statuses[Math.floor(Math.random() * statuses.length)];
+        const finalStatus = Math.random() > 0.3 ? "accepted" : "rejected";
         this.updateRequestStatus(newRequest.id, finalStatus);
+        
+        // Add a response message for meetings/messages as well
+        const responseMsg = finalStatus === 'accepted' 
+          ? `I've received your ${newRequest.type.toLowerCase()} regarding "${newRequest.subject || 'Meeting'}". Let's proceed as requested.`
+          : `I'm sorry, I cannot support your ${newRequest.type.toLowerCase()} request at this time. Please check back next semester.`;
+
+        const professorResponse = {
+          id: "msg-res-" + Date.now(),
+          type: "Message",
+          facultyName: newRequest.facultyName,
+          subject: `RE: ${newRequest.subject || newRequest.type}`,
+          message: responseMsg,
+          timestamp: new Date().toISOString(),
+          status: "accepted",
+          isIncoming: true
+        };
+        state.requests.unshift(professorResponse);
+        this._persistRequests();
         
         // Notify user via toast if interactions exists
         if (typeof interactions !== 'undefined' && interactions.showToast) {
           const type = finalStatus === 'accepted' ? 'success' : 'error';
-          interactions.showToast(`Request to ${newRequest.facultyName} was ${finalStatus}.`, type);
+          interactions.showToast(`${newRequest.type} to ${newRequest.facultyName} was ${finalStatus}.`, type);
         }
+        
+        if (window.renderRequestHistory) renderRequestHistory();
       }, 30000);
 
       resolve(newRequest);
@@ -263,6 +365,17 @@ const api = {
            openFacultyProjects(state.currentFacultyId);
         }
       }
+    }
+  },
+
+  /** Clear all request history. */
+  clearRequests() {
+    state.requests = [];
+    this._persistRequests();
+    if (window.renderRequestHistory) renderRequestHistory();
+    // Refresh current faculty view if open
+    if (state.currentFacultyId && window.openFacultyProjects) {
+      openFacultyProjects(state.currentFacultyId);
     }
   },
 

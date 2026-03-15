@@ -320,6 +320,21 @@
   border-radius: 4px;
 }
 
+.proj-pending-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gold);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #fdf5e6;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
 .project-card.registered {
   border-color: var(--forest);
   background: #fdfdfd;
