@@ -92,7 +92,10 @@ function buildCardHTML(f, i) {
       <div class="card-head-info">
         <div class="faculty-name">${f.name}</div>
         <div class="faculty-title">${f.title}</div>
-        <span class="dept-badge badge-${deptKey}">${f.deptLabel}</span>
+        <div style="display: flex; gap: 8px; justify-content: space-between; align-items: center; margin-top: 4px;">
+          <span class="dept-badge badge-${deptKey}">${f.deptLabel}</span>
+          <span class="campus-badge ${f.campusStatus === 'off-campus' ? 'off-campus' : 'on-campus'}">${f.campusStatus === 'off-campus' ? 'Off-Campus' : 'On-Campus'}</span>
+        </div>
       </div>
     </div>
 

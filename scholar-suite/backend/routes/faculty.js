@@ -90,6 +90,7 @@ function transformFacultyRow(row) {
     phone: row.phone || generateIndianPhoneNumber(),
     free: row.free && row.free.length > 0 ? row.free : generateFreeTimings(),
     busy: row.busy || [],
+    campusStatus: row.id % 10 === 0 ? 'off-campus' : 'on-campus',
   };
 }
 

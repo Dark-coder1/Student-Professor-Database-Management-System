@@ -9,18 +9,18 @@ const API_BASE = "/api";
 
 // ── Local fallback data ───────────────────────────────────────
 const LOCAL_FACULTY = [
-  { id:1,  emoji:"👩‍💻", name:"Dr. Priya Nair",           title:"Associate Professor",       dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 98765 43210", email:"priya.nair@univ.edu.in",    free:["Mon 10 AM–11 AM","Wed 2 PM–4 PM"],       busy:[] },
-  { id:2,  emoji:"👨‍🔬", name:"Prof. S. Krishnaswamy",    title:"Professor & Head of Dept",  dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 94321 87654", email:"s.krishna@univ.edu.in",     free:["Tue 3 PM–4 PM","Thu 10 AM–12 PM"],                  busy:[] },
-  { id:3,  emoji:"👩‍🏫", name:"Dr. Meena Rajagopalan",    title:"Assistant Professor",       dept:"ECE",   deptLabel:"Electronics & Comm.",  phone:"+91 91234 56789", email:"meena.raj@univ.edu.in",     free:["Mon 2 PM–3 PM","Fri 3 PM–5 PM"],         busy:[] },
-  { id:4,  emoji:"👨‍🏫", name:"Dr. Ramesh Iyer",          title:"Senior Professor",          dept:"MECH",  deptLabel:"Mechanical Engg.",     phone:"+91 97654 32109", email:"r.iyer@univ.edu.in",        free:["Wed 10 AM–12 PM","Fri 2 PM–3 PM"],                  busy:[] },
-  { id:5,  emoji:"👩‍🔬", name:"Dr. Anitha Subramaniam",   title:"Associate Professor",       dept:"MATH",  deptLabel:"Mathematics",          phone:"+91 93456 78901", email:"anitha.s@univ.edu.in",      free:["Mon 11 AM–1 PM","Thu 9 AM–10 AM"],        busy:[] },
-  { id:6,  emoji:"👨‍💼", name:"Prof. Vijay Shankar",       title:"Professor",                 dept:"CIVIL", deptLabel:"Civil Engineering",    phone:"+91 98901 23456", email:"v.shankar@univ.edu.in",     free:["Tue 10 AM–11 AM","Fri 9 AM–11 AM"],                 busy:[] },
-  { id:7,  emoji:"👩‍💼", name:"Dr. Kavitha Menon",         title:"Assistant Professor",       dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 95678 12345", email:"kavitha.m@univ.edu.in",     free:["Mon 9 AM–11 AM","Wed 11 AM–12 PM"],                  busy:[] },
-  { id:8,  emoji:"🧑‍🏫", name:"Dr. Suresh Babu",           title:"Associate Professor",       dept:"ECE",   deptLabel:"Electronics & Comm.",  phone:"+91 99012 34567", email:"suresh.b@univ.edu.in",      free:["Tue 11 AM–1 PM","Thu 3 PM–5 PM"],       busy:[] },
-  { id:9,  emoji:"👩‍🔬", name:"Prof. Lakshmi Devi",        title:"Senior Professor",          dept:"MATH",  deptLabel:"Mathematics",          phone:"+91 90123 45678", email:"lakshmi.d@univ.edu.in",     free:["Mon 3 PM–5 PM","Wed 9 AM–10 AM"],                   busy:[] },
-  { id:10, emoji:"👨‍🔬", name:"Dr. Arunkumar Patel",       title:"Assistant Professor",       dept:"MECH",  deptLabel:"Mechanical Engg.",     phone:"+91 88765 43210", email:"arun.p@univ.edu.in",        free:["Tue 2 PM–3 PM","Thu 10 AM–12 PM"],        busy:[] },
-  { id:11, emoji:"🧑‍💻", name:"Dr. Deepa Chandrasekhar",   title:"Associate Professor",       dept:"CIVIL", deptLabel:"Civil Engineering",    phone:"+91 87654 32109", email:"deepa.c@univ.edu.in",       free:["Mon 11 AM–12 PM","Fri 11 AM–1 PM"],                  busy:[] },
-  { id:12, emoji:"👨‍🏫", name:"Prof. Mohan Venkatesh",     title:"Professor",                 dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 86543 21098", email:"m.venkatesh@univ.edu.in",   free:["Wed 3 PM–5 PM","Thu 11 AM–12 PM"],                   busy:[] },
+  { id:1,  emoji:"👩‍💻", name:"Dr. Priya Nair",           title:"Associate Professor",       dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 98765 43210", email:"priya.nair@univ.edu.in",    free:["Mon 10 AM–11 AM","Wed 2 PM–4 PM"],       busy:[], campusStatus: "on-campus" },
+  { id:2,  emoji:"👨‍🔬", name:"Prof. S. Krishnaswamy",    title:"Professor & Head of Dept",  dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 94321 87654", email:"s.krishna@univ.edu.in",     free:["Tue 3 PM–4 PM","Thu 10 AM–12 PM"],                  busy:[], campusStatus: "on-campus" },
+  { id:3,  emoji:"👩‍🏫", name:"Dr. Meena Rajagopalan",    title:"Assistant Professor",       dept:"ECE",   deptLabel:"Electronics & Comm.",  phone:"+91 91234 56789", email:"meena.raj@univ.edu.in",     free:["Mon 2 PM–3 PM","Fri 3 PM–5 PM"],         busy:[], campusStatus: "on-campus" },
+  { id:4,  emoji:"👨‍🏫", name:"Dr. Ramesh Iyer",          title:"Senior Professor",          dept:"MECH",  deptLabel:"Mechanical Engg.",     phone:"+91 97654 32109", email:"r.iyer@univ.edu.in",        free:["Wed 10 AM–12 PM","Fri 2 PM–3 PM"],                  busy:[], campusStatus: "on-campus" },
+  { id:5,  emoji:"👩‍🔬", name:"Dr. Anitha Subramaniam",   title:"Associate Professor",       dept:"MATH",  deptLabel:"Mathematics",          phone:"+91 93456 78901", email:"anitha.s@univ.edu.in",      free:["Mon 11 AM–1 PM","Thu 9 AM–10 AM"],        busy:[], campusStatus: "on-campus" },
+  { id:6,  emoji:"👨‍💼", name:"Prof. Vijay Shankar",       title:"Professor",                 dept:"CIVIL", deptLabel:"Civil Engineering",    phone:"+91 98901 23456", email:"v.shankar@univ.edu.in",     free:["Tue 10 AM–11 AM","Fri 9 AM–11 AM"],                 busy:[], campusStatus: "on-campus" },
+  { id:7,  emoji:"👩‍💼", name:"Dr. Kavitha Menon",         title:"Assistant Professor",       dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 95678 12345", email:"kavitha.m@univ.edu.in",     free:["Mon 9 AM–11 AM","Wed 11 AM–12 PM"],                  busy:[], campusStatus: "on-campus" },
+  { id:8,  emoji:"🧑‍🏫", name:"Dr. Suresh Babu",           title:"Associate Professor",       dept:"ECE",   deptLabel:"Electronics & Comm.",  phone:"+91 99012 34567", email:"suresh.b@univ.edu.in",      free:["Tue 11 AM–1 PM","Thu 3 PM–5 PM"],       busy:[], campusStatus: "on-campus" },
+  { id:9,  emoji:"👩‍🔬", name:"Prof. Lakshmi Devi",        title:"Senior Professor",          dept:"MATH",  deptLabel:"Mathematics",          phone:"+91 90123 45678", email:"lakshmi.d@univ.edu.in",     free:["Mon 3 PM–5 PM","Wed 9 AM–10 AM"],                   busy:[], campusStatus: "on-campus" },
+  { id:10, emoji:"👨‍🔬", name:"Dr. Arunkumar Patel",       title:"Assistant Professor",       dept:"MECH",  deptLabel:"Mechanical Engg.",     phone:"+91 88765 43210", email:"arun.p@univ.edu.in",        free:["Tue 2 PM–3 PM","Thu 10 AM–12 PM"],        busy:[], campusStatus: "off-campus" },
+  { id:11, emoji:"🧑‍💻", name:"Dr. Deepa Chandrasekhar",   title:"Associate Professor",       dept:"CIVIL", deptLabel:"Civil Engineering",    phone:"+91 87654 32109", email:"deepa.c@univ.edu.in",       free:["Mon 11 AM–12 PM","Fri 11 AM–1 PM"],                  busy:[], campusStatus: "on-campus" },
+  { id:12, emoji:"👨‍🏫", name:"Prof. Mohan Venkatesh",     title:"Professor",                 dept:"CSE",   deptLabel:"Computer Science",     phone:"+91 86543 21098", email:"m.venkatesh@univ.edu.in",   free:["Wed 3 PM–5 PM","Thu 11 AM–12 PM"],                   busy:[], campusStatus: "on-campus" },
 ];
 
 const LOCAL_PROJECTS = {
@@ -313,21 +313,50 @@ const api = {
       state.requests.unshift(newRequest);
       this._persistRequests();
       
-      // Auto-resolution after 30 seconds
+      // Auto-resolution after 1.5 seconds for realistic chat feel
       setTimeout(() => {
-        const finalStatus = Math.random() > 0.3 ? "accepted" : "rejected";
-        this.updateRequestStatus(newRequest.id, finalStatus);
-        
-        // Add a response message for meetings/messages as well
-        const responseMsg = finalStatus === 'accepted' 
-          ? `I've received your ${newRequest.type.toLowerCase()} regarding "${newRequest.subject || 'Meeting'}". Let's proceed as requested.`
-          : `I'm sorry, I cannot support your ${newRequest.type.toLowerCase()} request at this time. Please check back next semester.`;
+        let finalStatus = "accepted";
+        let responseMsg = "";
+
+        if (newRequest.type === 'Meeting') {
+            finalStatus = Math.random() > 0.3 ? "accepted" : "rejected";
+            this.updateRequestStatus(newRequest.id, finalStatus);
+            responseMsg = finalStatus === 'accepted' 
+              ? `I am available for our meeting request regarding "${newRequest.reason || 'our upcoming project'}". See you then.`
+              : `I'm sorry, my schedule is quite packed. Please check back next week.`;
+        } else {
+            // AI Chatbot logic based on message content
+            const msgLower = (newRequest.message || "").toLowerCase();
+            this.updateRequestStatus(newRequest.id, "accepted");
+
+            if (msgLower.includes("hello") || msgLower.includes("hi")) {
+                responseMsg = `Hello! How can I help you today?`;
+            } else if (msgLower.includes("project") || msgLower.includes("research") || msgLower.includes("thesis")) {
+                responseMsg = `That sounds interesting. Have you prepared a proposal document for this?`;
+            } else if (msgLower.includes("meeting") || msgLower.includes("meet")) {
+                responseMsg = `I'd be happy to meet. Please use the "Request Meeting" button to officially book a slot.`;
+            } else if (msgLower.includes("grade") || msgLower.includes("assignment") || msgLower.includes("exam")) {
+                responseMsg = `Grades/marks are typically updated by the end of the week. Let me know if you see any discrepancies by Monday.`;
+            } else if (msgLower.includes("thank")) {
+                responseMsg = `You're welcome! Let me know if you need anything else.`;
+            } else if (msgLower.includes("help") || msgLower.includes("stuck") || msgLower.includes("error")) {
+                responseMsg = `I understand you're facing an issue. Please come to my office hours or share the specific details so I can take a look.`;
+            } else {
+                const genericResponses = [
+                    "I see. Could you provide a bit more detail on that?",
+                    "Understood. Let's discuss this further during my next office hours.",
+                    `I've noted that down. I'll get back to you shortly regarding "${newRequest.subject || 'this point'}".`,
+                    "Thanks for reaching out. Please send me an email with the specifics and we can take it from there."
+                ];
+                responseMsg = genericResponses[Math.floor(Math.random() * genericResponses.length)];
+            }
+        }
 
         const professorResponse = {
           id: "msg-res-" + Date.now(),
           type: "Message",
           facultyName: newRequest.facultyName,
-          subject: `RE: ${newRequest.subject || newRequest.type}`,
+          subject: newRequest.type === 'Meeting' ? `RE: Meeting Request` : `RE: ${newRequest.subject || 'Message'}`,
           message: responseMsg,
           timestamp: new Date().toISOString(),
           status: "accepted",
@@ -336,14 +365,14 @@ const api = {
         state.requests.unshift(professorResponse);
         this._persistRequests();
         
-        // Notify user via toast if interactions exists
-        if (typeof interactions !== 'undefined' && interactions.showToast) {
+        // Notify user via toast if it's a meeting (we don't need a toast for every chat message to avoid spam)
+        if (newRequest.type === 'Meeting' && typeof interactions !== 'undefined' && interactions.showToast) {
           const type = finalStatus === 'accepted' ? 'success' : 'error';
-          interactions.showToast(`${newRequest.type} to ${newRequest.facultyName} was ${finalStatus}.`, type);
+          interactions.showToast(`Meeting with ${newRequest.facultyName} was ${finalStatus}.`, type);
         }
         
-        if (window.renderRequestHistory) renderRequestHistory();
-      }, 30000);
+        if (window.renderRequestHistory) window.renderRequestHistory();
+      }, 1500);
 
       resolve(newRequest);
     });

@@ -32,7 +32,7 @@ function openFacultyProjects(facultyId) {
       if (f) f.projectCount = projects.length;
 
       title.innerHTML = `Projects — <span>${faculty.name}</span>`;
-      body.innerHTML = buildFacultyProjectsHTML(faculty, projects);
+      body.innerHTML = buildFacultyProjectsHTML(f || faculty, projects);
     })
     .catch((err) => {
       body.innerHTML = `<p style="padding:40px;color:var(--terracotta)">Error loading projects: ${err.message}</p>`;
@@ -162,32 +162,47 @@ function buildFacultyProjectsHTML(faculty, projects) {
   const deptKey = getDeptCode(faculty.department || faculty.deptLabel || "");
   
   return `
-    <div class="proj-faculty-hero">
-      <div class="proj-faculty-photo">${faculty.emoji || "👤"}</div>
-      <div>
-        <div class="proj-faculty-name">${faculty.name}</div>
-        <div class="proj-faculty-sub">${faculty.title} · ${faculty.deptLabel || faculty.department}</div>
-        <span class="proj-count-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-            <rect x="2" y="3" width="20" height="14" rx="2"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
-          </svg>
-          ${projects.length} Registered Project${projects.length !== 1 ? "s" : ""}
-        </span>
-        <div class="interaction-actions">
-          <button class="btn-interaction btn-meeting" onclick="interactions.openModal('meetingModal', '${faculty.name.replace(/'/g, "\\'")}')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+    <div class="proj-faculty-hero" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+      <div style="display:flex; gap:16px; flex:1; min-width:300px;">
+        <div class="proj-faculty-photo">${faculty.emoji || "👤"}</div>
+        <div>
+          <div class="proj-faculty-name">${faculty.name}</div>
+          <div class="proj-faculty-sub">${faculty.title} · ${faculty.deptLabel || faculty.department}</div>
+          <span class="proj-count-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
             </svg>
-            Request Meeting
-          </button>
-          <button class="btn-interaction btn-message" onclick="interactions.openModal('messageModal', '${faculty.name.replace(/'/g, "\\'")}')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-            </svg>
-            Send Message
-          </button>
+            ${projects.length} Registered Project${projects.length !== 1 ? "s" : ""}
+          </span>
+          <div class="interaction-actions">
+            <button class="btn-interaction btn-meeting" onclick="interactions.openModal('meetingModal', '${faculty.name.replace(/'/g, "\\'")}')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              Request Meeting
+            </button>
+            <button class="btn-interaction btn-message" onclick="interactions.openMessagesPage('${faculty.name.replace(/'/g, "\\'")}')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+              </svg>
+              Send Message
+            </button>
+          </div>
         </div>
+      </div>
+      <div style="text-align:right;">
+        <span class="campus-badge ${faculty.campusStatus === 'off-campus' ? 'off-campus' : 'on-campus'}" style="font-size: 0.8rem; padding: 4px 12px;">${faculty.campusStatus === 'off-campus' ? 'Off-Campus' : 'On-Campus'}</span>
+      </div>
+    </div>
+    <div class="avail-section" style="margin-top: 24px; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;">
+      <div class="avail-label" style="font-weight: 600; margin-bottom: 12px;">
+        Free Timings
+      </div>
+      <div class="avail-slots">
+        ${(faculty.free || []).map(s => `<span class="avail-slot" style="background:var(--pine-light);color:var(--forest);">${s}</span>`).join("")}
+        ${(faculty.busy || []).map(s => `<span class="avail-slot busy">${s}</span>`).join("")}
+        ${!(faculty.free && faculty.free.length) && !(faculty.busy && faculty.busy.length) ? '<span class="avail-slot">No timings listed</span>' : ''}
       </div>
     </div>
     <div class="projects-section-title">Research &amp; Student Projects</div>
@@ -223,18 +238,18 @@ function renderFacultyRequests(facultyName) {
     let preview = "";
     
     if (req.type === 'Meeting') {
-      typeLabel = "📅 Meeting";
+      typeLabel = "📅 Requested Meeting";
       preview = `Requested for: ${new Date(req.dateTime).toLocaleString()}`;
     } else if (req.type === 'Message') {
-      typeLabel = "✉️ Message";
-      preview = `Subject: ${req.subject}`;
+      typeLabel = req.isIncoming ? "📩 Accepted Request / Message" : "✉️ Sent Message";
+      preview = req.isIncoming ? req.message : `Subject: ${req.subject}`;
     } else if (req.type === 'Registration') {
       typeLabel = "📝 Registration";
       preview = `Project: ${req.projectTitle}`;
     }
     
     return `
-      <div class="history-item request-item status-${req.status}" style="margin-bottom: 12px; border-radius: 8px; background: white; border: 1px solid var(--border); border-left: 4px solid transparent;">
+      <div class="history-item request-item status-${req.status}" onclick="interactions.openMessagesPage('${req.facultyName.replace(/'/g, "\\'")}')" style="margin-bottom: 12px; border-radius: 8px; background: white; border: 1px solid var(--border); border-left: 4px solid transparent; cursor: pointer;">
         <style>
           .status-pending { border-left-color: var(--gold) !important; }
           .status-accepted { border-left-color: var(--forest) !important; }

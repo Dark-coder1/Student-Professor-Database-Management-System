@@ -64,9 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("clearHistoryBtn").addEventListener("click", clearRecentlyViewed);
 
   // Requests Sidebar Events
-  document.getElementById("requestsToggle").addEventListener("click", openRequests);
-  document.getElementById("requestsClose").addEventListener("click", closeRequests);
-  document.getElementById("clearRequestsBtn").addEventListener("click", clearRequestsRecords);
+  document.getElementById("requestsToggle").addEventListener("click", () => interactions.openMessagesPage(null));
 
   // Auth Events
   document.getElementById("loginForm").addEventListener("submit", handleLogin);
@@ -113,46 +111,7 @@ function closeHistory() {
   }
 }
 
-/** Open the requests sidebar. */
-function openRequests() {
-  renderRequestHistory();
-  document.getElementById("requestsSidebar").classList.add("open");
-  // Use history overlay logic
-  let overlay = document.getElementById("historyOverlay");
-  if (!overlay) {
-    overlay = document.createElement("div");
-    overlay.id = "historyOverlay";
-    overlay.className = "history-sidebar-overlay";
-    overlay.addEventListener("click", closeRequests);
-    document.body.appendChild(overlay);
-  } else {
-    // If already there, ensure it closes requests
-    overlay.onclick = closeRequests;
-  }
-  setTimeout(() => overlay.classList.add("active"), 10);
-}
 
-/** Clear request history records. */
-function clearRequestsRecords() {
-  if (state.requests.length === 0) return;
-  if (!confirm("Are you sure you want to clear your entire request history?")) return;
-  
-  api.clearRequests();
-  
-  if (typeof interactions !== 'undefined') {
-    interactions.showToast("Request history cleared.", "success");
-  }
-}
-
-/** Close the requests sidebar. */
-function closeRequests() {
-  document.getElementById("requestsSidebar").classList.remove("open");
-  const overlay = document.getElementById("historyOverlay");
-  if (overlay) {
-    overlay.classList.remove("active");
-    setTimeout(() => overlay.remove(), 300);
-  }
-}
 
 /** Check authentication status and update UI. */
 function checkAuth() {
