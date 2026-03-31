@@ -164,10 +164,14 @@ function buildFacultyProjectsHTML(faculty, projects) {
   return `
     <div class="proj-faculty-hero" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;">
       <div style="display:flex; gap:16px; flex:1; min-width:300px;">
-        <div class="proj-faculty-photo">${faculty.emoji || "👤"}</div>
+        <div class="proj-faculty-photo">
+          ${faculty.photo
+            ? `<img src="${faculty.photo}" alt="${faculty.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'; this.parentElement.textContent='${faculty.emoji || '👤'}'">`
+            : (faculty.emoji || '👤')}
+        </div>
         <div>
           <div class="proj-faculty-name">${faculty.name}</div>
-          <div class="proj-faculty-sub">${faculty.title} · ${faculty.deptLabel || faculty.department}</div>
+          <div class="proj-faculty-sub">${faculty.title || ''} · ${faculty.deptLabel || faculty.department || ''}</div>
           <span class="proj-count-badge">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
               <rect x="2" y="3" width="20" height="14" rx="2"/>
