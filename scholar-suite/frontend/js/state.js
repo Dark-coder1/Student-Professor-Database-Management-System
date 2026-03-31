@@ -19,6 +19,9 @@ const state = {
   /** Set of active department filter strings e.g. "CSE", "ECE" */
   activeDepts: new Set(),
 
+  /** Set of active campus filter strings e.g. "on-campus", "off-campus" */
+  activeCampusFilters: new Set(),
+
   /** Current search query string */
   searchQuery: "",
 

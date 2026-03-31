@@ -3,13 +3,6 @@
  * Reads from state.allFaculty and applies current filters.
  */
 
-/** Extract short department code from full department name. */
-function getDeptCode(deptName) {
-  // Extract code from parentheses, e.g., "School of Computer Science and Engineering (SCOPE)" -> "SCOPE"
-  const match = (deptName || "").match(/\(([A-Z]+)\)$/);
-  return match ? match[1].toLowerCase() : (deptName || "unknown").toLowerCase();
-}
-
 /** Apply all active filters and re-render the grid. */
 function renderCards() {
   const grid = document.getElementById("facultyGrid");
@@ -28,12 +21,9 @@ function renderCards() {
     const matchDept =
       state.activeDepts.size === 0 || state.activeDepts.has(f.dept);
 
-    const matchCampus =
-      state.activeCampusFilters.size === 0 || state.activeCampusFilters.has(f.campusStatus);
-
     const matchBookmark = !state.showBookmarked || state.bookmarks.has(f.id);
 
-    return matchSearch && matchDept && matchCampus && matchBookmark;
+    return matchSearch && matchDept && matchBookmark;
   });
 
   countEl.textContent = `${state.filtered.length} Faculty`;
@@ -57,7 +47,7 @@ function renderCards() {
 /** Build the HTML string for a single faculty card. */
 function buildCardHTML(f, i) {
   const saved     = state.bookmarks.has(f.id);
-  const deptKey   = getDeptCode(f.dept);
+  const deptKey   = f.dept.toLowerCase();
   const delay     = Math.min(i * 0.05, 0.4);
 
   const freeSlots = (f.free || [])
@@ -89,16 +79,11 @@ function buildCardHTML(f, i) {
     </button>
 
     <div class="card-head">
-      <div class="faculty-photo">
-        ${f.photo ? `<img src="${f.photo}" alt="${f.name}" onerror="this.style.display='none'; this.parentElement.textContent='${f.emoji || '👤'}'" style="width:100%;height:100%;object-fit:cover;">` : f.emoji || "👤"}
-      </div>
+      <div class="faculty-photo">${f.emoji || "👤"}</div>
       <div class="card-head-info">
         <div class="faculty-name">${f.name}</div>
         <div class="faculty-title">${f.title}</div>
-        <div style="display: flex; gap: 8px; justify-content: space-between; align-items: center; margin-top: 4px;">
-          <span class="dept-badge badge-${deptKey}">${f.deptLabel}</span>
-          <span class="campus-badge ${f.campusStatus === 'off-campus' ? 'off-campus' : 'on-campus'}">${f.campusStatus === 'off-campus' ? 'Off-Campus' : 'On-Campus'}</span>
-        </div>
+        <span class="dept-badge badge-${deptKey}">${f.deptLabel}</span>
       </div>
     </div>
 
@@ -115,13 +100,6 @@ function buildCardHTML(f, i) {
           <polyline points="22,6 12,13 2,6"/>
         </svg>
         <a href="mailto:${f.email}">${f.email}</a>
-      </div>
-      <div class="info-row">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-          <circle cx="12" cy="10" r="3"></circle>
-        </svg>
-        ${f.officeAddress || 'N/A'}
       </div>
     </div>
 
@@ -151,38 +129,4 @@ function showGridLoading() {
       <div class="loading-spinner"></div>
       <p>Loading faculty…</p>
     </div>`;
-}
-
-/** Render the recently viewed list in the sidebar. */
-function renderRecentlyViewed() {
-  const historyList = document.getElementById("historyList");
-  if (!historyList) return;
-
-  if (state.recentlyViewed.length === 0) {
-    historyList.innerHTML = `
-      <div class="empty-history">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </svg>
-        <p>No recently viewed faculty.</p>
-      </div>`;
-    return;
-  }
-
-  // Get full faculty objects for the IDs in history
-  const viewedFaculty = state.recentlyViewed
-    .map(id => state.allFaculty.find(f => f.id === id))
-    .filter(Boolean);
-
-  historyList.innerHTML = viewedFaculty.map(f => `
-    <div class="history-item" onclick="openFacultyProjects(${f.id}); closeHistory();">
-      <div class="history-avatar">
-        ${f.photo ? `<img src="${f.photo}" alt="${f.name}" onerror="this.innerHTML='${f.emoji || '👤'}'">` : f.emoji || "👤"}
-      </div>
-      <div class="history-info">
-        <div class="history-name">${f.name}</div>
-        <div class="history-subject">${f.deptLabel || f.title}</div>
-      </div>
-    </div>
-  `).join("");
 }

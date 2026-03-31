@@ -1,0 +1,5 @@
+node_modules/
+.env
+backend.zip
+*.log
+.DS_Store

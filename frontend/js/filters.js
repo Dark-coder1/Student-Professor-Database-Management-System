@@ -14,88 +14,55 @@ function onSearchInput(e) {
 function toggleFilterDropdown() {
   const dd  = document.getElementById("filterDropdown");
   const btn = document.getElementById("filterBtn");
-  const isActive = state.activeDepts.size > 0 || state.activeCampusFilters.size > 0;
   dd.classList.toggle("open");
-  btn.classList.toggle("active", dd.classList.contains("open") || isActive);
+  btn.classList.toggle("active", dd.classList.contains("open") || state.activeDepts.size > 0);
 }
 
 function onDeptCheckboxChange() {
-  const deptCheckboxes = document.querySelectorAll(
-    "#filterDropdown input[name='dept']"
+  const checkboxes = document.querySelectorAll(
+    "#filterDropdown input[type=checkbox]"
   );
-  const campusCheckboxes = document.querySelectorAll(
-    "#filterDropdown input[name='campus']"
-  );
-
   state.activeDepts.clear();
-  deptCheckboxes.forEach((cb) => {
+  checkboxes.forEach((cb) => {
     if (cb.checked) state.activeDepts.add(cb.value);
   });
 
-  state.activeCampusFilters.clear();
-  campusCheckboxes.forEach((cb) => {
-    if (cb.checked) state.activeCampusFilters.add(cb.value);
-  });
-
-  const isActive = state.activeDepts.size > 0 || state.activeCampusFilters.size > 0;
   document
     .getElementById("filterBtn")
-    .classList.toggle("active", isActive);
+    .classList.toggle("active", state.activeDepts.size > 0);
 
   renderActiveDeptTags();
   renderCards();
 }
 
-function removeFilter(value, type) {
-  if (type === 'dept') {
-    state.activeDepts.delete(value);
-  } else {
-    state.activeCampusFilters.delete(value);
-  }
-
+function removeFilter(dept) {
+  state.activeDepts.delete(dept);
   document
-    .querySelectorAll(`#filterDropdown input[value='${value}']`)
+    .querySelectorAll("#filterDropdown input[type=checkbox]")
     .forEach((cb) => {
-      cb.checked = false;
+      if (cb.value === dept) cb.checked = false;
     });
-
-  const isActive = state.activeDepts.size > 0 || state.activeCampusFilters.size > 0;
   document
     .getElementById("filterBtn")
-    .classList.toggle("active", isActive);
-
+    .classList.toggle("active", state.activeDepts.size > 0);
   renderActiveDeptTags();
   renderCards();
 }
 
 function renderActiveDeptTags() {
   const bar = document.getElementById("activeFilters");
-
-  const deptTags = [...state.activeDepts]
+  bar.innerHTML = [...state.activeDepts]
     .map(
       (d) => `
-      <div class="filter-tag" onclick="removeFilter('${d}', 'dept')">
+      <div class="filter-tag" onclick="removeFilter('${d}')">
         ${d}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <line x1="18" y1="6" x2="6" y2="18"/>
           <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       </div>`
-    );
-
-  const campusTags = [...state.activeCampusFilters]
-    .map(
-      (c) => `
-      <div class="filter-tag" onclick="removeFilter('${c}', 'campus')">
-        ${c === 'on-campus' ? 'On Campus' : 'Off Campus'}
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </div>`
-    );
-
-  bar.innerHTML = [...deptTags, ...campusTags].join("");
+    )
+    .join("");
 }
 
 // Close dropdown when clicking outside
@@ -107,17 +74,12 @@ document.addEventListener("click", (e) => {
 
 // ── Bookmarks ────────────────────────────────────────────────
 
-function saveBookmarksToStorage() {
-  localStorage.setItem("bookmarks", JSON.stringify([...state.bookmarks]));
-}
-
 function toggleBookmark(facultyId) {
   if (state.bookmarks.has(facultyId)) {
     state.bookmarks.delete(facultyId);
   } else {
     state.bookmarks.add(facultyId);
   }
-  saveBookmarksToStorage();
   renderCards();
 }
 

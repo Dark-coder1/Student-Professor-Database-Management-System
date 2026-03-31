@@ -7,11 +7,11 @@ function generateFreeTimings() {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
   const hours = [9, 10, 11, 12, 13, 14, 15, 16, 17]; // 9 AM to 5 PM (slots ending by 6 PM)
   const timeDurations = [1, 2]; // 1 or 2 hour slots
-  
+
   // Randomly select 1 or 2 days
   const slotsCount = Math.random() > 0.5 ? 1 : 2;
   const selectedDays = [];
-  
+
   // Pick random unique days
   while (selectedDays.length < slotsCount) {
     const randomDay = days[Math.floor(Math.random() * days.length)];
@@ -19,7 +19,7 @@ function generateFreeTimings() {
       selectedDays.push(randomDay);
     }
   }
-  
+
   // Generate time slots for each day
   const slots = [];
   selectedDays.forEach(day => {
@@ -27,7 +27,7 @@ function generateFreeTimings() {
     const duration = timeDurations[Math.floor(Math.random() * timeDurations.length)];
     const startHour = randomHour;
     const endHour = startHour + duration;
-    
+
     // Format time with AM/PM
     const formatTime = (hour) => {
       if (hour < 12) {
@@ -38,13 +38,13 @@ function generateFreeTimings() {
         return { hour: hour - 12, period: "PM" };
       }
     };
-    
+
     const startTime = formatTime(startHour);
     const endTime = formatTime(endHour);
-    
+
     slots.push(`${day} ${startTime.hour} ${startTime.period}–${endTime.hour} ${endTime.period}`);
   });
-  
+
   return slots;
 }
 
@@ -83,7 +83,7 @@ function transformFacultyRow(row) {
     department: row.department,
     dept: row.department,
     deptLabel: row.department,
-    office_address: row.office_address,
+    officeAddress: row.office_address,
     photo: photoUrl,
     emoji: "👤",
     title: row.title || "",
