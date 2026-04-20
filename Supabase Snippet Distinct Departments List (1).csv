@@ -1,0 +1,101 @@
+id,employee_id,name,email,office_address,department,pics
+41,7.70827,Dr. Vasavi Sanikommu,vasavi.sanikommu@vitap.ac.in,"CB, 104-A",School of Computer Science and Engineering (SCOPE),null
+42,8.70027,Dr. Nalluri Purnachand,purnachand.n@vitap.ac.in,"128, AB-1",School of Electronics Engineering (SENSE),null
+43,8.70055,Dr. Umakanta Nanda,umakanta.n@vitap.ac.in,"326-E, AB-1",School of Electronics Engineering (SENSE),null
+44,8.70059,Dr. Deepak Ch,deepak.ch@vitap.ac.in,"329-I, AB-1",School of Electronics Engineering (SENSE),null
+45,8.7006,Dr. Anoop Kumar Mishra,anoop.m@vitap.ac.in,"328-A, AB-1",School of Electronics Engineering (SENSE),null
+46,8.70061,Dr. Sameeulla Khan Md,sameeulla.k@vitap.ac.in,"G36-D, AB-1",School of Electronics Engineering (SENSE),null
+47,8.70069,Dr. Ambuj Sharma,sharma.ambuj@vitap.ac.in,"328-I , AB1",School of Mechanical Engineering (SMEC),null
+48,8.70077,Dr. Jayendra Kumar,kumar.jayendra@vitap.ac.in,"422-F, AB-1",School of Electronics Engineering (SENSE),null
+49,8.70078,Dr. Sudha Ellison Mathe,ellison.mathe@vitap.ac.in,"206, CB",School of Electronics Engineering (SENSE),null
+50,8.70079,Dr. R. Nandha Kumar,nandha.r@vitap.ac.in,CB; (CTS-421),School of Computer Science and Engineering (SCOPE),null
+51,8.70081,Dr. Nuthakki Venkata Rajasekhar,rajasekhar.venkata@vitap.ac.in,"229-B, AB-1",School of Electronics Engineering (SENSE),null
+52,8.70082,Dr. Manoj Kumar Gupta,manoj.gupta@vitap.ac.in,AB1 424D,School of Mechanical Engineering (SMEC),null
+53,8.70084,Dr. Sibi Chakkaravarthy S,chakkaravarthy.sibi@vitap.ac.in,CB; 222,School of Computer Science and Engineering (SCOPE),null
+54,8.7009,Dr. Sunny Dayal Vanambathina,sunny.dayal@vitap.ac.in,"214, AB-1",School of Electronics Engineering (SENSE),null
+55,8.70092,Dr. Manikanta Ravindra Kumar V.,ravindra.v@vitap.ac.in,"144, Faculty Area - 140 AB1",School of Mechanical Engineering (SMEC),null
+56,8.70103,Dr. Aravapalli Rama Satish,rama.satish@vitap.ac.in,CB; 408-H,School of Computer Science and Engineering (SCOPE),null
+28,6.70005,Dr. N Madhusudhana Rao,madhusudhana.n@vitap.ac.in," G-36, AB-1",School of Advanced Science (SAS),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/70005_Dr_N_Madhusudhana_Rao_PHY_1360_73381f87c1.avif
+25,5.70048,Dr. V R K Murty,vrkm@vitap.ac.in,"130, AB-1",School of Advanced Science (SAS),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/70048_Dr_V_R_K_Murty_IMG_0994_SAS_689c0ba4f2.avif
+35,7.70292,Dr. Raghavendra,raghavendra@vitap.ac.in,"410A, AB-1",School of Business (VSB),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/70292_Dr_Raghavendra_VSB_1186_f1a8884d65.avif
+32,6.704,Dr. K Senthil,senthil.k@vitap.ac.in,"115-B, CB",School of Advanced Science (SAS),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/70400_Dr_K_Senthil_1055_110b0a68fe.avif
+24,4.70492,Dr. Ch. Naresh,naresh.ch@vitap.ac.in,"424-F, AB-1",School of Electronics Engineering (SENSE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/70492_Dr_Ch_Naresh_SENSE_1136_3cff4fb0a0.avif
+40,7.7051,Dr. Sumesh E. P,sumesh.ep@vitap.ac.in,"152, AB-1",School of Electronics Engineering (SENSE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/70510_Dr_Sumesh_E_P_SENSE_1148_b90cc8bdd9.avif
+39,7.70486,Dr. Ameet Chavan,ameetchavan@vitap.ac.in,"326-A, CB",School of Electronics Engineering (SENSE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Ameet_Chavan_IMG_6613_SENSE_eb65164181.avif
+23,4.70487,Dr. Anil Vitthalrao Turukmane,anil.turukmane@vitap.ac.in,CB: 229-E,School of Computer Science and Engineering (SCOPE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Anil_Vitthalrao_Turukmane_70487_0162_9c8d31f279.avif
+36,7.70308,Dr. Dasari Venkata Lakshmi,venkatalakshmi.d@vitap.ac.in,CB; G07-G,School of Computer Science and Engineering (SCOPE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Dasari_Venkata_Lakshmi_SCOPE_0724_67dcd708c3.avif
+33,6.70685,Dr. Edara Sreenivasa Reddy,sreenivasareddy.e@vitap.ac.in,CB; G07-H,School of Computer Science and Engineering (SCOPE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Edara_Sreenivasa_Reddy_SCOPE_IMG_2139_cb903a1d75.avif
+37,7.70391,Dr. Eswaraiah Rayachoti,eswaraiah.rayachoti@vitap.ac.in,CB; 201-H,School of Computer Science and Engineering (SCOPE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Eswaraiah_Rayachoti_70391_IMG_4691_SCOPE_d854f7b1d3.avif
+27,6.70003,Dr. Hari Seetha,seetha.hari@vitap.ac.in,CB 222,School of Computer Science and Engineering (SCOPE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Hari_Seetha_SCOPE_0741_2b647e6904.avif
+22,4.7044,Dr. Illa Ramakanth,ramakanth.illa@vitap.ac.in,"204-A, CB",School of Advanced Science (SAS),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Illa_Ramakanth_SAS_0813_9c031a5f24.avif
+26,5.70456,Dr. Mary Chandini Stephens,marychandini.y@vit.ac.in,"202-F , AB-2",School of Social Science and Humanities (VISH),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Mary_Chandini_Stephens_VISH_1566_517a2cb19d.avif
+30,6.7002,Dr. P S Rama Sreekanth,sreekanth.p@vitap.ac.in,"403, CB",School of Mechanical Engineering (SMEC),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_P_S_Rama_Sreekanth_70020_IMG_4723_SMEC_8e23baaadb.avif
+29,6.70009,Dr. Pankaj Balkrishna Tambe,pankaj.tambe@vitap.ac.in,"145, Faculty Area - 140 AB1",School of Mechanical Engineering (SMEC),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Pankaj_Balkrishna_Tambe_70009_IMG_2621_SMEC_2f648dd89a.avif
+34,7.70123,Dr. Prabha Selvaraj,prabha.s@vitap.ac.in,CB: 415-H,School of Computer Science and Engineering (SCOPE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Prabha_Selvaraj_SCOPE_IMG_7108_b396b325ac.avif
+31,6.70053,Dr. Ravindra Dhuli,ravindra.d@vitap.ac.in,"144, AB-1",School of Electronics Engineering (SENSE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Ravindra_Dhuli_70053_IMG_4932_SENSE_00908717ad.avif
+38,7.70465,Dr. Y Narasimha Rao,y.narasimharao@vitap.ac.in,CB: 415-A,School of Computer Science and Engineering (SCOPE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Y_Narasimha_Rao_70465_IMG_4699_SCOPE_137431ee92.avif
+57,8.70106,Dr. Paramasivam R,paramasivam.r@vitap.ac.in,"125-E, AB-2",School of Advanced Science (SAS),null
+58,8.7011,Dr. Harikiran Jonnadula,harikiran.j@vitap.ac.in,CB; 103-F,School of Computer Science and Engineering (SCOPE),null
+59,8.70119,Dr. Selvakumar Karuthapandi,selvakumar.k@vitap.ac.in,"125-G, AB-2",School of Advanced Science (SAS),null
+60,8.7014,Dr. Ganesh Reddy Karri,ganesh.reddy@vitap.ac.in,CB; 221,School of Computer Science and Engineering (SCOPE),null
+61,8.70282,Dr. P. Kuppusamy,kuppusamy.p@vitap.ac.in,CB;103-A,School of Computer Science and Engineering (SCOPE),null
+62,8.70436,Dr. Naga Jagadesh Bommagani,nagajagadesh.bommagani@vitap.ac.in,CB; 201-F,School of Computer Science and Engineering (SCOPE),null
+63,8.70455,Dr Sachi Nandan Mohanty,sachinandan.m@vitap.ac.in,CB: 205-G,School of Computer Science and Engineering (SCOPE),null
+64,8.70466,Dr. Bharathi V C,bharathi.vc@vitap.ac.in,CB: 415-B,School of Computer Science and Engineering (SCOPE),null
+65,8.70493,Dr. Hemant Kumar Reddy,hemanth.reddy@vitap.ac.in,CB: 427-B,School of Computer Science and Engineering (SCOPE),null
+66,8.70517,Dr. Srinivasa Reddy Konda,srinivasareddy.k@vitap.ac.in,CB: 312 (CDC),School of Computer Science and Engineering (SCOPE),null
+67,8.70545,Dr. Anupriya Elumalai,anupriya.e@vitap.ac.in,CB: 312 (CDC),School of Computer Science and Engineering (SCOPE),null
+68,8.70567,Dr. Kalapraveen Bagadi,kalapraveen.b@vitap.ac.in,"126, AB-1",School of Electronics Engineering (SENSE),null
+69,8.70628,Dr. Suresh Dara,suresh.d@vitap.ac.in,CB; 418-L,School of Computer Science and Engineering (SCOPE),null
+70,8.70829,Dr. Tarun Narayan Shankar,tarun.shankar@vitap.ac.in,"CB, 432-F",School of Computer Science and Engineering (SCOPE),null
+71,9.70007,Dr. John Pradeep D,john.darsy@vitap.ac.in,"G30, AB-1",School of Electronics Engineering (SENSE),null
+72,9.70012,Dr. Khadheer Pasha Sk,khadheerpasha.sk@vitap.ac.in,"125, AB-1",School of Advanced Science (SAS),null
+73,9.70029,Dr. E. Ajith Jubilson,ajith.jubilson@vitap.ac.in,CB; 407-A,School of Computer Science and Engineering (SCOPE),null
+74,9.7003,Dr Santanu Mandal,santanu.mandal@vitap.ac.in,"320-B, AB-2",School of Advanced Science (SAS),null
+75,9.70031,Dr. Roopas Kiran Sirugudu,roopaskiran.s@vitap.ac.in,"G-36, AB-1",School of Advanced Science (SAS),null
+76,9.70032,Dr. Hussain Syed,hussain.syed@vitap.ac.in,CB; 227-D,School of Computer Science and Engineering (SCOPE),null
+77,9.70033,Dr. J Sudagar,sudagar.jothi@vitap.ac.in,"153, AB-1",School of Advanced Science (SAS),null
+78,9.70034,Dr. Deepasikha Mishra,deepasikha.mishra@vitap.ac.in,AB-1; 326-G,School of Computer Science and Engineering (SCOPE),null
+79,9.70058,Dr. Debajit Goswami,debajit.g@vitap.ac.in,"125-M, AB-2",School of Advanced Science (SAS),null
+80,9.70071,Dr. Hari Kishan Kondaveeti,kishan.kondaveeti@vitap.ac.in,CB; G05-B,School of Computer Science and Engineering (SCOPE),null
+81,9.70386,Dr. Suyog Jhavar,suyog.jhavar@vitap.ac.in,"313-B, AB1",School of Mechanical Engineering (SMEC),null
+82,9.70588,Dr. Shaiku Shahida Saheb,shahid.sk@vitap.ac.in,"422-E, AB-1",School of Business (VSB),null
+83,9.70604,Dr. Ravi Kumar Bandaru,ravikumar.bandaru@vitap.ac.in,"124-C, AB-2",School of Advanced Science (SAS),null
+84,10.70015,Dr. Sudhakar M,sudhakar.matle@vitap.ac.in,"G23-B, AB-2",School of Advanced Science (SAS),null
+85,10.70022,Dr. Phani Kumar M,phani.m@vitap.ac.in,"G23-C, AB-2",School of Advanced Science (SAS),null
+86,10.70023,Dr. Soubhagya Sankar Barpanda,soubhagya.barpanda@vitap.ac.in,CB; 427-C,School of Computer Science and Engineering (SCOPE),null
+88,10.70105,Dr. Samineni Peddakrishna,samineni.peddakrishna@vitap.ac.in,"422-D, AB-1",School of Electronics Engineering (SENSE),null
+89,10.70107,Dr. S. Gopikrishnan,gopikrishnan.s@vitap.ac.in,CB; G05-C,School of Computer Science and Engineering (SCOPE),null
+90,10.70161,Dr. Rohit Lorenzo,rohit.lorenzo@vitap.ac.in,"158, AB-1",School of Electronics Engineering (SENSE),null
+91,10.70163,Dr. Bappadittya Roy,bappadittya.roy@vitap.ac.in,"313-C, AB-1",School of Electronics Engineering (SENSE),null
+92,10.70178,Dr. Lakhan Dev Sharma,lakhan.sharma@vitap.ac.in,"154, AB-1",School of Electronics Engineering (SENSE),null
+93,10.70179,Dr. Rajeev Sharma,rajeev.sharma@vitap.ac.in,"310-E, AB-1",School of Electronics Engineering (SENSE),null
+94,10.70197,Dr. Prashanth Maroju,prashanth.m@vitap.ac.in,"AB-1, 152",School of Advanced Science (SAS),null
+95,10.70369,Dr. Arindam Dey,arindam.dey@vitap.ac.in,CB; G07-F,School of Computer Science and Engineering (SCOPE),null
+96,10.70371,Dr. Bolem Sai Chandana,saichandana.bolem@vitap.ac.in,CB: G04-B,School of Computer Science and Engineering (SCOPE),null
+97,10.70435,Dr. M. Sucharitha,sucharitha.jackson@vitap.ac.in,"108, AB-1",School of Electronics Engineering (SENSE),null
+98,10.70442,Dr. Neeraj Kumar Misra,neeraj.misra@vitap.ac.in,"163, AB-1",School of Electronics Engineering (SENSE),null
+99,10.70443,Dr. Ashish Gupta,ashish.gupta@vitap.ac.in,"328-H, AB-1",School of Electronics Engineering (SENSE),null
+100,10.70445,Dr. Virendra Kumar Verma,virendra.verma@vitap.ac.in,"116-D, CB",School of Advanced Science (SAS),null
+4,1.70049,Dr. Y. V. Pavan Kumar,pavankumar.yv@vitap.ac.in,"422-G, AB-1",School of Electronics Engineering (SENSE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/70049_Dr_Y_V_Pavan_Kumar_SENSE_1184_2954015774.avif
+6,1.70169,Dr. Benarji Chakka,benarji.chakka@vitap.ac.in,"416-A, AB-2",School of Law (VSL),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/70169_Dr_Benarji_Chakka_VSL_1383_213e2b1f4a.avif
+3,1.70016,Dr. Dilipkumar Mohanty,mohanty.dk@vitap.ac.in,"310-H, AB-1",School of Mechanical Engineering (SMEC),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Dilipkumar_Mohanty_70016_IMG_2317_SMEC_0951702ac8.avif
+7,1.70342,Dr. Priyanka Ghosh,dean.vish@vitap.ac.in,"224-A, AB-2",School of Social Science and Humanities (VISH),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Priyanka_Ghosh_VISH_1463_b08f244c8b.avif
+1,1.70004,Dr. Srinivas S,srinivas.s@vitap.ac.in,"G23-A, AB-2",School of Advanced Science (SAS),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Srinivas_S_70004_0497_2c281fd932.avif
+5,1.70087,Dr. Sudhakar Ilango,sudhakar.ilango@vitap.ac.in,CB; 320-C,School of Computer Science and Engineering (SCOPE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Sudhakar_Ilango_70087_IMG_4727_SCOPE_68f8caba72.avif
+9,1.70429,Dr. Arunkumar Sivakumar,arunkumar.sivakumar@vitap.ac.in,"410G, AB-1",School of Business (VSB),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Arunkumar_Sivakumar.avif
+2,1.70014,Dr. Jagadish Chandra Mudiganti,mudiganti.jc@vitap.ac.in,null,School of Electronics Engineering (SENSE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/4_Dr_Jagadish_Chandra_Mudiganti_SENSE_70014_03cc80fda8.avif
+12,3.70114,Dr. Usha Seshadri,usha.seshadri@vitap.ac.in,"410, AB-1",School of Business (VSB),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/70114_Dr_Usha_Seshadri_VSB_1192_e750b5fc3c.avif
+13,3.70541,Dr. Ananthu S Hari,ananthu.s.hari@vitap.ac.in,"416-D, AB-2",School of Law (VSL),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/70541_Dr_Ananthu_S_Hari_VSL_1109_ac7d036a78.avif
+87,10.70063,Dr. Arun Kumar Sinha,arunkumar.s@vitap.ac.in,"328-D, AB-1",School of Electronics Engineering (SENSE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Arunkumar_Sivakumar_VSB_ca331d8994.avif
+20,4.70307,Dr. G.Muneeswari,muneeswari.g@vitap.ac.in,CB; 205-E,School of Computer Science and Engineering (SCOPE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_G_Muneeswari_SCOPE_1458_c89f0d19e0.avif
+16,4.7018,Dr. Gurumurthy Komanapalli,gurumurthy.k@vitap.ac.in,"329-E, AB-1",School of Electronics Engineering (SENSE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Gurumurthy_Komanapalli_70180_IMG_5134_SENSE_61560a4248.avif
+18,4.70193,Dr. Khairnar Vikas Vishnu,vikas.vishnu@vitap.ac.in,"329-H, AB-1",School of Electronics Engineering (SENSE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Khairnar_Vikas_Vishnu_IMG_6625_SENSE_ec891457ef.avif
+15,4.70104,Dr. Nagaraju Devarakonda,nagaraju.devarakonda@vitap.ac.in,CB; G05-G,School of Computer Science and Engineering (SCOPE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Nagaraju_Devarakonda_70104_IMG_4890_SCOPE_6ce8e6103a.avif
+21,4.70359,Dr. Nagarjuna Neella,nagarjuna.neela@vitap.ac.in,"225-C, AB-2",School of Advanced Science (SAS),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Nagarjuna_Neella_70359_0499_a199913312.avif
+10,2.70806,Dr. P Arulmozhivarman,vc@vitap.ac.in,CB G08,School of Electronics Engineering (SENSE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_P_Arulmozhivarman_VC_3e6b8e2db2.avif
+19,4.70306,Dr. Reeja S R,reeja.sr@vitap.ac.in,CB; G04-D,School of Computer Science and Engineering (SCOPE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Reeja_S_R_70306_0211_c3768ccf86.avif
+11,3.70051,Dr. Saroj Kumar Panigrahy,saroj.panigrahy@vitap.ac.in,CB; 320-B,School of Computer Science and Engineering (SCOPE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Saroj_Kumar_Panigrahy_70051_IMG_4724_SCOPE_877760db9f.avif
+17,4.70183,Dr. Subhasish Mahapatra,subhasish.m@vitap.ac.in,"326-D, AB-1",School of Electronics Engineering (SENSE),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Subhasish_Mahapatra_70183_IMG_2589_SENSE_ffbbcc5c69.avif
+14,4.70098,Dr. Vemula Ramakrishna Reddy,ramakrishna.reddy@vitap.ac.in,"G23-I, AB-2",School of Advanced Science (SAS),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Dr_Vemula_Ramakrishna_Reddy_SAS_MAT_1925_069bd98a76.avif
+8,1.70383,Dr. M Venkata Rajanikanth,rajanikanth.machavaram@vitap.ac.in,"G05-F, Central Block",School of Advanced Science (SAS),https://uzzfmdwcpafrvcxhsosp.supabase.co/storage/v1/object/public/photos/Venkata_Rajanikanth_IMG_6740_SASPHY_988d5487c2.avif

@@ -1,0 +1,149 @@
+/* ── login.css ──────────────────────────────────────────────── */
+
+.login-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease;
+}
+
+.login-screen.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Background aesthetic */
+.login-screen::before {
+  content: '';
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(circle at 20% 30%, rgba(43, 92, 63, 0.05) 0%, transparent 40%),
+              radial-gradient(circle at 80% 70%, rgba(200, 90, 48, 0.05) 0%, transparent 40%);
+  animation: bgPulse 20s infinite alternate;
+  z-index: -1;
+}
+
+@keyframes bgPulse {
+  from { transform: rotate(0deg) scale(1.0); }
+  to { transform: rotate(5deg) scale(1.1); }
+}
+
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 48px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.login-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 32px;
+}
+
+.login-logo span {
+  color: var(--terracotta);
+  font-style: italic;
+}
+
+.login-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.login-header p {
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  margin-bottom: 32px;
+}
+
+.login-form {
+  text-align: left;
+}
+
+.login-input-group {
+  margin-bottom: 20px;
+}
+
+.login-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-light);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.login-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border-md);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: var(--cream);
+  transition: all 0.2s;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: var(--forest);
+  box-shadow: 0 0 0 3px rgba(43, 92, 63, 0.1);
+  background: white;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--forest);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 12px;
+}
+
+.login-btn:hover {
+  background: var(--forest-lt);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(43, 92, 63, 0.2);
+}
+
+.login-footer {
+  margin-top: 24px;
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+.login-footer a {
+  color: var(--forest);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Hide main app initially */
+body.auth-required .navbar,
+body.auth-required .main-content {
+  filter: blur(20px);
+  pointer-events: none;
+  opacity: 0.3;
+}
